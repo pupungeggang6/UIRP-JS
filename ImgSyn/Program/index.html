@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Image Synthesis Simulation</title>
+        <style>
+            #Bar {
+                border : 2px solid black;
+                position : absolute;
+                left : 0px;
+                top : 0px;
+            }
+
+            #ScreenGL {
+                border : 2px solid black;
+                position : absolute;
+                left : 0px;
+                top : 40px;
+            }
+
+            #ScreenImage {
+                border : 2px solid black;
+                position : absolute;
+                left : 640px;
+                top : 40px;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="Bar" width="640" height="40"></canvas>
+        <canvas id="ScreenGL" width="640" height="640"></canvas>
+        <canvas id="ScreenImage" width="640" height="640"></canvas>
+
+        <script src="Script/Asset.js"></script>
+        <script src="Script/UI.js"></script>
+        <script src="Script/Const.js"></script>
+        <script src="Script/Var.js"></script>
+
+        <script src="Script/FunctionPhysics.js"></script>
+        <script src="Script/FunctionProgram.js"></script>
+        <script src="Script/FunctionDraw.js"></script>
+
+        <script src="Script/SceneMain.js"></script>
+
+        <script src="Script/Main.js"></script>
+    </body>
+</html>
