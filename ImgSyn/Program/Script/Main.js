@@ -8,7 +8,7 @@ function main() {
     canvasImage = document.getElementById('ScreenImage')
 
     contextBar = canvasBar.getContext('2d')
-    contextGL = canvasGL.getContext('2d')
+    contextGL = canvasGL.getContext('webgl')
     contextImage = canvasImage.getContext('2d')
 
     canvasBar.addEventListener('mouseup', mouseUpBar, false)
@@ -18,10 +18,17 @@ function main() {
     window.addEventListener('keydown', keyDown, false)
     window.addEventListener('keyup', keyUp, false)
 
+    loadImage()
+    glInit()
+
     programFrameCurrent = Date.now()
     programFramePrevious = Date.now() - 16
 
     programInstance = requestAnimationFrame(loop)
+}
+
+function glInit() {
+
 }
 
 function loop() {
