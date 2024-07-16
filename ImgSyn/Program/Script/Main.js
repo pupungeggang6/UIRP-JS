@@ -28,7 +28,13 @@ function main() {
 }
 
 function glInit() {
+    let shaderCodeVertex = `
+    `
 
+    let shaderCodeFragment = `
+    `
+
+    shaderProgram = gl.createProgram()
 }
 
 function loop() {
