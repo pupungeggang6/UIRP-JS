@@ -8,7 +8,7 @@ function main() {
     canvasImage = document.getElementById('ScreenImage')
 
     contextBar = canvasBar.getContext('2d')
-    contextGL = canvasGL.getContext('webgl')
+    gl = canvasGL.getContext('webgl', {preserveDrawingBuffer : true})
     contextImage = canvasImage.getContext('2d')
 
     canvasBar.addEventListener('mouseup', mouseUpBar, false)
@@ -29,12 +29,44 @@ function main() {
 
 function glInit() {
     let shaderCodeVertex = `
+        attribute vec4 a_position;
+
+        void main() {
+            gl_Position = a_position;
+        }
     `
 
     let shaderCodeFragment = `
+        precision mediump float;
+
+        void main() {
+            gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+        }
     `
 
     shaderProgram = gl.createProgram()
+    shaderVertex = gl.createShader(gl.VERTEX_SHADER)
+    gl.shaderSource(shaderVertex, shaderCodeVertex)
+    gl.compileShader(shaderVertex)
+
+    shaderFragment = gl.createShader(gl.FRAGMENT_SHADER)
+    gl.shaderSource(shaderFragment, shaderCodeFragment)
+    gl.compileShader(shaderFragment)
+
+    gl.attachShader(shaderProgram, shaderVertex)
+    gl.attachShader(shaderProgram, shaderFragment)
+    gl.linkProgram(shaderProgram)
+    gl.useProgram(shaderProgram)
+
+    gl.enable(gl.DEPTH_TEST)
+
+    locationVertex = gl.getAttribLocation(shaderProgram, 'a_position')
+    bufferVertex = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufferVertex)
+    gl.enableVertexAttribArray(locationVertex)
+    gl.vertexAttribPointer(locationVertex, 3, gl.FLOAT, false, 0, 0)
+    bufferIndex = gl.createBuffer()
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bufferIndex)
 }
 
 function loop() {
