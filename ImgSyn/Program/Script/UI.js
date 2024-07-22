@@ -1,8 +1,9 @@
 const UI = {
     bar : {
-        newFile : [0, 0, 40, 40],
-        save : [40, 0, 40, 40],
-        glass : [80, 0, 40, 40],
-        cube : [120, 0, 40, 40]
+        buttonNewFile : [0, 0, 40, 40],
+        buttonSave : [40, 0, 40, 40],
+        buttonGlass : [80, 0, 40, 40],
+        buttonCube : [120, 0, 40, 40],
+        buttonToImage : [160, 0, 40, 40]
     }
 }

@@ -38,9 +38,10 @@ function glInit() {
 
     let shaderCodeFragment = `
         precision mediump float;
+        uniform vec4 u_color;
 
         void main() {
-            gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+            gl_FragColor = u_color;
         }
     `
 
@@ -60,9 +61,11 @@ function glInit() {
 
     gl.enable(gl.DEPTH_TEST)
 
-    locationVertex = gl.getAttribLocation(shaderProgram, 'a_position')
+    locationColor = gl.getUniformLocation(shaderProgram, 'u_color')
+    
     bufferVertex = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferVertex)
+    locationVertex = gl.getAttribLocation(shaderProgram, 'a_position')
     gl.enableVertexAttribArray(locationVertex)
     gl.vertexAttribPointer(locationVertex, 3, gl.FLOAT, false, 0, 0)
     bufferIndex = gl.createBuffer()
