@@ -1,4 +1,6 @@
 function loopMain() {
+    space.cube = rotateObject(space.cube, 0, 1)
+    space.cube = rotateObject(space.cube, 1, 0.5)
     displayMain()
 }
 
@@ -11,6 +13,8 @@ function displayMain() {
     contextBar.drawImage(img.glass, UI.bar.buttonGlass[0], UI.bar.buttonGlass[1])
     contextBar.drawImage(img.cube, UI.bar.buttonCube[0], UI.bar.buttonCube[1])
     contextBar.drawImage(img.toImage, UI.bar.buttonToImage[0], UI.bar.buttonToImage[1])
+
+    drawCube(space.cube)
 }
 
 function mouseUpBarMain(x, y, button) {

@@ -11,8 +11,16 @@ let shaderFragment
 
 let locationVertex
 let locationColor
+let locationMatrix
 let bufferVertex
 let bufferIndex
+let matrixView = [
+    1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -0.5, 0, 0, 0, 0, 1
+]
+
+let space = {
+    cube : [[0, 0, 0], [0.5, 0, 0], [0.5, 0, -0.5], [0, 0, -0.5], [0, 0.5, 0], [0.5, 0.5, 0], [0.5, 0.5, -0.5], [0, 0.5, -0.5]]
+}
 
 let state = ''
 

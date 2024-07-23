@@ -30,9 +30,10 @@ function main() {
 function glInit() {
     let shaderCodeVertex = `
         attribute vec4 a_position;
+        uniform mat4 u_matrix;
 
         void main() {
-            gl_Position = a_position;
+            gl_Position = u_matrix * a_position;
         }
     `
 
@@ -62,6 +63,7 @@ function glInit() {
     gl.enable(gl.DEPTH_TEST)
 
     locationColor = gl.getUniformLocation(shaderProgram, 'u_color')
+    locationMatrix = gl.getUniformLocation(shaderProgram, 'u_matrix')
     
     bufferVertex = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferVertex)
