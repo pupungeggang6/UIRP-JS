@@ -14,7 +14,9 @@ let texture = {
         canvas : document.createElement('canvas'),
         context : null,
         texture : null
-    }
+    },
+
+    a : null,
 }
 
 function loadImage() {

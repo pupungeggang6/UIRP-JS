@@ -20,6 +20,7 @@ function main() {
 
     loadImage()
     glInit()
+    loadTexture()
 
     programFrameCurrent = Date.now()
     programFramePrevious = Date.now() - 16
@@ -72,13 +73,6 @@ function glInit() {
 
     gl.enable(gl.DEPTH_TEST)
 
-    texture.sample.texture = gl.createTexture()
-    gl.bindTexture(gl.TEXTURE_2D, texture.sample.texture)
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img.textureSample)
-
     locationColor = gl.getUniformLocation(shaderProgram, 'u_color')
     locationMatrix = gl.getUniformLocation(shaderProgram, 'u_matrix')
     locationVertex = gl.getAttribLocation(shaderProgram, 'a_position')
@@ -97,8 +91,22 @@ function glInit() {
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferTexture)
     gl.enableVertexAttribArray(locationTexture)
     gl.vertexAttribPointer(locationTexture, 2, gl.FLOAT, false, 0, 0)
+}
 
+function loadTexture() {
+    texture.sample.texture = gl.createTexture()
+    gl.bindTexture(gl.TEXTURE_2D, texture.sample.texture)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img.textureSample)
 
+    texture.a = gl.createTexture()
+    gl.bindTexture(gl.TEXTURE_2D, texture.a)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img.save)
 }
 
 function loop() {

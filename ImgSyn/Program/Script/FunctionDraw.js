@@ -26,6 +26,8 @@ function drawCube(point) {
         [0, 1], [1, 2], [2, 3], [3, 0], [4, 5], [5, 6], [6, 7], [7, 4], [0, 4], [1, 5], [2, 6], [3, 7]
     ]
 
+    gl.bindTexture(gl.TEXTURE_2D, texture.sample.texture)
+    
     for (let i = 0; i < 12; i++) {
         let tempPoint = [point[face[i][0]][0], point[face[i][0]][1], point[face[i][0]][2], point[face[i][1]][0], point[face[i][1]][1], point[face[i][1]][2], point[face[i][2]][0], point[face[i][2]][1], point[face[i][2]][2]]
 
