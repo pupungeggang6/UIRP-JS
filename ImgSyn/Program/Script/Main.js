@@ -45,9 +45,14 @@ function glInit() {
         uniform vec4 u_color;
         varying vec2 v_texcoord;
         uniform sampler2D u_texture;
+        uniform int u_mode;
 
         void main() {
-            gl_FragColor = u_color;
+            if (u_mode == 0) {
+                gl_FragColor = texture2D(u_texture, v_texcoord);
+            } else {
+                gl_FragColor = u_color;
+            }
         }
     `
 
@@ -67,12 +72,21 @@ function glInit() {
 
     gl.enable(gl.DEPTH_TEST)
 
+    texture.sample.texture = gl.createTexture()
+    gl.bindTexture(gl.TEXTURE_2D, texture.sample.texture)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img.textureSample)
+
     locationColor = gl.getUniformLocation(shaderProgram, 'u_color')
     locationMatrix = gl.getUniformLocation(shaderProgram, 'u_matrix')
-    
+    locationVertex = gl.getAttribLocation(shaderProgram, 'a_position')
+    locationTexture = gl.getAttribLocation(shaderProgram, 'a_texcoord')
+    locationMode = gl.getUniformLocation(shaderProgram, 'u_mode')
+
     bufferVertex = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferVertex)
-    locationVertex = gl.getAttribLocation(shaderProgram, 'a_position')
     gl.enableVertexAttribArray(locationVertex)
     gl.vertexAttribPointer(locationVertex, 3, gl.FLOAT, false, 0, 0)
 
@@ -81,9 +95,10 @@ function glInit() {
 
     bufferTexture = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferTexture)
-    locationTexture = gl.getAttribLocation(shaderProgram, 'a_texcoord')
     gl.enableVertexAttribArray(locationTexture)
     gl.vertexAttribPointer(locationTexture, 2, gl.FLOAT, false, 0, 0)
+
+
 }
 
 function loop() {
