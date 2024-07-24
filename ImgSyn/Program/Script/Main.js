@@ -18,8 +18,8 @@ function main() {
     window.addEventListener('keydown', keyDown, false)
     window.addEventListener('keyup', keyUp, false)
 
-    glInit()
     loadImage()
+    glInit()
 
     programFrameCurrent = Date.now()
     programFramePrevious = Date.now() - 16
@@ -30,17 +30,21 @@ function main() {
 function glInit() {
     let shaderCodeVertex = `
         attribute vec4 a_position;
-        uniform vec4 u_matrix;
+        uniform mat4 u_matrix;
+        attribute vec2 a_texcoord;
+        varying vec2 v_texcoord;
 
         void main() {
             gl_Position = u_matrix * a_position;
+            v_texcoord = a_texcoord;
         }
     `
 
     let shaderCodeFragment = `
         precision mediump float;
         uniform vec4 u_color;
-        //uniform int u_mode;
+        varying vec2 v_texcoord;
+        uniform sampler2D u_texture;
 
         void main() {
             gl_FragColor = u_color;
@@ -65,7 +69,6 @@ function glInit() {
 
     locationColor = gl.getUniformLocation(shaderProgram, 'u_color')
     locationMatrix = gl.getUniformLocation(shaderProgram, 'u_matrix')
-    //locationMode = gl.getUniformLocation(shaderProgram, 'u_mode')
     
     bufferVertex = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferVertex)
@@ -76,12 +79,11 @@ function glInit() {
     bufferIndex = gl.createBuffer()
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bufferIndex)
 
-    /*
     bufferTexture = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferTexture)
+    locationTexture = gl.getAttribLocation(shaderProgram, 'a_texcoord')
     gl.enableVertexAttribArray(locationTexture)
     gl.vertexAttribPointer(locationTexture, 2, gl.FLOAT, false, 0, 0)
-    */
 }
 
 function loop() {
