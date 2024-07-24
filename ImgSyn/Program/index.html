@@ -10,10 +10,17 @@
                 top : 0px;
             }
 
-            #ScreenGL {
+            #BarLeft {
                 border : 2px solid black;
                 position : absolute;
                 left : 0px;
+                top : 40px;
+            }
+
+            #ScreenGL {
+                border : 2px solid black;
+                position : absolute;
+                left : 320px;
                 top : 40px;
             }
 
@@ -24,6 +31,13 @@
                 top : 40px;
             }
 
+            #BarRight {
+                border : 2px solid black;
+                position : absolute;
+                left : 960px;
+                top : 40px;
+            }
+
             @font-face {
                 font-family: 'neodgm';
                 src: url('Font/neodgm.ttf');
@@ -31,9 +45,11 @@
         </style>
     </head>
     <body>
-        <canvas id="Bar" width="640" height="40"></canvas>
-        <canvas id="ScreenGL" width="640" height="640"></canvas>
-        <canvas id="ScreenImage" width="640" height="640"></canvas>
+        <canvas id="Bar" width="1280" height="40"></canvas>
+        <canvas id="BarLeft" width="320" height="640"></canvas>
+        <canvas id="ScreenGL" width="320" height="320"></canvas>
+        <canvas id="ScreenImage" width="320" height="320"></canvas>
+        <canvas id="BarRight" width="320" height="640"></canvas>
 
         <script src="Script/Asset.js"></script>
         <script src="Script/UI.js"></script>
