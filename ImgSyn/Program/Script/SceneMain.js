@@ -8,11 +8,11 @@ function displayMain() {
     drawSceneGInit()
     drawSceneBarInit()
 
-    contextBar.drawImage(img.newFile, UI.bar.buttonNewFile[0], UI.bar.buttonNewFile[1])
-    contextBar.drawImage(img.save, UI.bar.buttonSave[0], UI.bar.buttonSave[1])
-    contextBar.drawImage(img.glass, UI.bar.buttonGlass[0], UI.bar.buttonGlass[1])
-    contextBar.drawImage(img.cube, UI.bar.buttonCube[0], UI.bar.buttonCube[1])
-    contextBar.drawImage(img.toImage, UI.bar.buttonToImage[0], UI.bar.buttonToImage[1])
+    contextBar.drawImage(img.newFile, UI.barTop.buttonNewFile[0], UI.barTop.buttonNewFile[1])
+    contextBar.drawImage(img.save, UI.barTop.buttonSave[0], UI.barTop.buttonSave[1])
+    contextBar.drawImage(img.glass, UI.barTop.buttonGlass[0], UI.barTop.buttonGlass[1])
+    contextBar.drawImage(img.cube, UI.barTop.buttonCube[0], UI.barTop.buttonCube[1])
+    contextBar.drawImage(img.toImage, UI.barTop.buttonToImage[0], UI.barTop.buttonToImage[1])
 
     drawCube(space.cube)
 }

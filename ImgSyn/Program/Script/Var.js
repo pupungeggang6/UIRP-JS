@@ -1,9 +1,13 @@
 let canvasBar
 let canvasGL
 let canvasImage
-let contextBar
+let canvasBackground
+let canvasReflection
 let gl
+let contextBar
 let contextImage
+let contextBackground
+let contextReflection
 
 let shaderProgram
 let shaderVertex
