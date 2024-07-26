@@ -3,7 +3,7 @@ window.onerror = errorHandle
 window.oncontextmenu = rightClick
 
 function main() {
-    canvasBar = document.getElementById('Bar')
+    canvasBar = document.getElementById('BarTop')
     canvasGL = document.getElementById('ScreenGL')
     canvasImage = document.getElementById('ScreenImage')
 

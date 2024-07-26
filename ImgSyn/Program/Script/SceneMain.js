@@ -20,9 +20,9 @@ function displayMain() {
 function mouseUpBarMain(x, y, button) {
     if (button === 0) {
         if (state === '') {
-            if (pointInsideRectArray(x, y, UI.bar.buttonToImage)) {
+            if (pointInsideRectArray(x, y, UI.barTop.buttonToImage)) {
                 contextImage.drawImage(canvasGL, 0, 0)
-            } else if (pointInsideRectArray(x, y, UI.bar.buttonSave)) {
+            } else if (pointInsideRectArray(x, y, UI.barTop.buttonSave)) {
                 var link = document.createElement('a')
                 link.download = 'test.png'
                 link.href = canvasImage.toDataURL()
