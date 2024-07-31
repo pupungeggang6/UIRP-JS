@@ -1,8 +1,11 @@
-let canvasBar
+let canvasBarUp
+let canvasBarDown
 let canvasGL
 let canvasImage
 let canvasBackground
 let canvasReflection
+let canvasBarLeft
+let canvasBarRight
 let gl
 let contextBar
 let contextImage
@@ -28,7 +31,10 @@ let matrixView = [
 ]
 
 let space = {
-    cube : [[0, 0, 0], [0.5, 0, 0], [0.5, 0, -0.5], [0, 0, -0.5], [0, 0.5, 0], [0.5, 0.5, 0], [0.5, 0.5, -0.5], [0, 0.5, -0.5]]
+    camera : [],
+    thing : [],
+    light : [],
+    cube : [[0, 0, 0], [0.5, 0, 0], [0.5, 0, -0.5], [0, 0, -0.5], [0, 0.5, 0], [0.5, 0.5, 0], [0.5, 0.5, -0.5], [0, 0.5, -0.5]],
 }
 
 let state = ''
