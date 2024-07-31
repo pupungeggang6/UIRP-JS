@@ -8,7 +8,7 @@ function main() {
     context = canvas.getContext('2d')
     gl = canvasG.getContext('webgl2')
 
-    window.addEventListener('mouseup', mouseUp, false)
+    canvas.addEventListener('mouseup', mouseUp, false)
     window.addEventListener('keydown', keyDown, false)
     window.addEventListener('keyup', keyUp, false)
 
