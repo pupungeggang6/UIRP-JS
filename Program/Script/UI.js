@@ -1,6 +1,10 @@
 const UI = {
     barTop : {
-        rect : [0, 0, 1280, 720]
+        rect : [0, 0, 1280, 720],
+        buttonCube : [200, 0, 40, 40],
+        buttonGlass : [240, 0, 40, 40],
+        buttonCamera : [280, 0, 40, 40],
+        buttonLight : [320, 0, 40, 40]
     },
 
     barBottom : {
@@ -8,7 +12,9 @@ const UI = {
     },
 
     barLeft : {
-        rect : [0, 40, 320, 640]
+        rect : [0, 40, 320, 640],
+        elementStart : [4, 40],
+        elementInterval : [0, 40]
     },
 
     barRight : {

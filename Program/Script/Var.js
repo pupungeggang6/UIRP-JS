@@ -29,3 +29,7 @@ let delta
 
 let scene = 'Main'
 let state = ''
+
+let space3D = [
+    {'Name' : 'Cube1', 'Type' : 'Cube', 'Geometry' : [0, 1, 0, 1, 0, 1]}
+]

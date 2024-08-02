@@ -10,10 +10,19 @@ function drawSceneInit() {
 
 function drawBarTop() {
     context.strokeRect(UI.barTop.rect[0], UI.barTop.rect[1], UI.barTop.rect[2], UI.barTop.rect[3])
+
+    context.drawImage(img.button.cube, UI.barTop.buttonCube[0], UI.barTop.buttonCube[1])
+    context.drawImage(img.button.glass, UI.barTop.buttonGlass[0], UI.barTop.buttonGlass[1])
+    context.drawImage(img.button.camera, UI.barTop.buttonCamera[0], UI.barTop.buttonCamera[1])
+    context.drawImage(img.button.light, UI.barTop.buttonLight[0], UI.barTop.buttonLight[1])
 }
 
 function drawBarLeft() {
     context.strokeRect(UI.barLeft.rect[0], UI.barLeft.rect[1], UI.barLeft.rect[2], UI.barLeft.rect[3])
+
+    for (let i = 0; i < space3D.length; i++) {
+        context.fillText(`${space3D[i]['Name']}`, UI.barLeft.elementStart[0], UI.barLeft.elementStart[1] + UI.barLeft.elementInterval[1] * i)
+    }
 }
 
 function drawBarRight() {
