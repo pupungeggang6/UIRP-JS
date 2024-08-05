@@ -66,10 +66,17 @@ function draw3DSpace() {
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.lineWidth(4)
 
+    gl.bindVertexArray(glVar.vao.vertex)
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
 
     gl.uniform4f(glVar.location.color, 0.0, 0.0, 1.0, 1.0)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0, 0, 0, 1, 1, 0]), gl.STATIC_DRAW)
+    gl.drawArrays(gl.LINES, 0, 2)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([1, 1, 0, 1, 0, 0]), gl.STATIC_DRAW)
+    gl.drawArrays(gl.LINES, 0, 2)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([1, 0, 0, 0, 0, 0]), gl.STATIC_DRAW)
+    gl.drawArrays(gl.LINES, 0, 2)
+    gl.uniform4f(glVar.location.color, 0.0, 1.0, 1.0, 1.0)
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0, 0, 0, 1, 1, 0, 1, 0, 0]), gl.STATIC_DRAW)
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Int16Array([0, 1, 2]), gl.STATIC_DRAW)
     gl.drawArrays(gl.TRIANGLES, 0, 3)
 }

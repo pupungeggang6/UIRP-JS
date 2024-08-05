@@ -23,6 +23,10 @@ let glVar = {
     location : {
         position : null,
         color : null
+    },
+
+    vao : {
+        vertex : null,
     }
 }
 

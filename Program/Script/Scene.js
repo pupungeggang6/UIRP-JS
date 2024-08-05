@@ -8,10 +8,10 @@ function displayMain() {
     drawBarBottom()
     drawBarLeft()
     drawBarRight()
-    draw3DSpace()
     drawImageFull()
     drawImageBackground()
     drawImageReflection()
+    draw3DSpace()
 }
 
 function mouseUpMain(x, y, button) {

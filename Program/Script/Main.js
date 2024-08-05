@@ -59,13 +59,12 @@ function glInit() {
     glVar.location.color = gl.getUniformLocation(glVar.program, 'u_color')
     glVar.location.position = gl.getAttribLocation(glVar.program, 'a_position')
 
-    glVar.buffer.vertex = gl.createBuffer()
+    glVar.buffer.vertex = gl.createBuffer(gl.ARRAY_BUFFER)
+    glVar.vao.vertex = gl.createVertexArray()
+    gl.bindVertexArray(glVar.vao.vertex)
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
-    gl.enableVertexAttribArray(glVar.location.vertex)
-    gl.vertexAttribPointer(glVar.location.vertex, 3, gl.FLOAT, false, 0, 0)
-
-    glVar.buffer.index = gl.createBuffer()
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, glVar.buffer.index)
+    gl.enableVertexAttribArray(glVar.location.position)
+    gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)
 
     gl.enable(gl.DEPTH_TEST)
 }
