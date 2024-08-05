@@ -5,21 +5,29 @@ let context
 let gl
 
 let glVar = {
-    shader : {
+    program : null,
 
+    shader : {
+        vertex : null,
+        vertexSource : null,
+        fragment : null,
+        fragmentSource : null,
     },
 
     buffer : {
-        
+        vertex : null,
+        index : null,
+        texture : null,
     },
 
     location : {
-
+        position : null,
+        color : null
     }
 }
 
 let glTexture = {
-    
+
 }
 
 let programLoop
@@ -31,5 +39,5 @@ let scene = 'Main'
 let state = ''
 
 let space3D = [
-    {'Name' : 'Cube1', 'Type' : 'Cube', 'Geometry' : [0, 1, 0, 1, 0, 1]}
+    {'Name' : 'Cube1', 'Type' : 'Cube', 'Geometry' : [0, 0, 0, 1, 1, 1]}
 ]

@@ -11,6 +11,16 @@ function drawSceneInit() {
 function drawBarTop() {
     context.strokeRect(UI.barTop.rect[0], UI.barTop.rect[1], UI.barTop.rect[2], UI.barTop.rect[3])
 
+    context.drawImage(img.button.fileNew, UI.barTop.buttonFileNew[0], UI.barTop.buttonFileNew[1], UI.barTop.buttonFileNew[2], UI.barTop.buttonFileNew[3])
+    context.drawImage(img.button.save, UI.barTop.buttonSave[0], UI.barTop.buttonSave[1], UI.barTop.buttonSave[2], UI.barTop.buttonSave[3])
+    context.drawImage(img.button.load, UI.barTop.buttonLoad[0], UI.barTop.buttonLoad[1], UI.barTop.buttonLoad[2], UI.barTop.buttonLoad[3])
+
+    context.drawImage(img.button.convertImage, UI.barTop.buttonConvertImage[0], UI.barTop.buttonConvertImage[1], UI.barTop.buttonConvertImage[2], UI.barTop.buttonConvertImage[3])
+    context.drawImage(img.button.download, UI.barTop.buttonDownload[0], UI.barTop.buttonDownload[1], UI.barTop.buttonDownload[2], UI.barTop.buttonDownload[3])
+    context.drawImage(img.button.upload, UI.barTop.buttonUpload[0], UI.barTop.buttonUpload[1], UI.barTop.buttonUpload[2], UI.barTop.buttonUpload[3])
+    context.drawImage(img.button.train, UI.barTop.buttonTrain[0], UI.barTop.buttonTrain[1], UI.barTop.buttonTrain[2], UI.barTop.buttonTrain[3])
+    context.drawImage(img.button.removeReflection, UI.barTop.buttonRemoveReflection[0], UI.barTop.buttonRemoveReflection[1], UI.barTop.buttonRemoveReflection[2], UI.barTop.buttonRemoveReflection[3])
+
     context.drawImage(img.button.cube, UI.barTop.buttonCube[0], UI.barTop.buttonCube[1])
     context.drawImage(img.button.glass, UI.barTop.buttonGlass[0], UI.barTop.buttonGlass[1])
     context.drawImage(img.button.camera, UI.barTop.buttonCamera[0], UI.barTop.buttonCamera[1])
@@ -31,6 +41,12 @@ function drawBarRight() {
 
 function drawBarBottom() {
     context.strokeRect(UI.barBottom.rect[0], UI.barBottom.rect[1], UI.barBottom.rect[2], UI.barBottom.rect[3])
+
+    if (state === '') {
+        context.fillText('Idle', UI.barBottom.textState[0], UI.barBottom.textState[1])
+    } else {
+        context.fillText(`${state}`, UI.barBottom.textState[0], UI.barBottom.textState[1])
+    }
 }
 
 function drawImageFull() {
@@ -43,4 +59,17 @@ function drawImageBackground() {
 
 function drawImageReflection() {
     context.strokeRect(UI.imageReflection[0], UI.imageReflection[1], UI.imageReflection[2], UI.imageReflection[3])
+}
+
+function draw3DSpace() {
+    gl.clearColor(0.0, 0.0, 0.0, 1.0)
+    gl.clear(gl.COLOR_BUFFER_BIT)
+    gl.lineWidth(4)
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
+
+    gl.uniform4f(glVar.location.color, 0.0, 0.0, 1.0, 1.0)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0, 0, 0, 1, 1, 0, 1, 0, 0]), gl.STATIC_DRAW)
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Int16Array([0, 1, 2]), gl.STATIC_DRAW)
+    gl.drawArrays(gl.TRIANGLES, 0, 3)
 }
