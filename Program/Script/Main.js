@@ -6,7 +6,7 @@ function main() {
     canvas = document.getElementById('ScreenUI')
     canvasG = document.getElementById('Screen3D')
     context = canvas.getContext('2d')
-    gl = canvasG.getContext('webgl2')
+    gl = canvasG.getContext('webgl')
 
     canvas.addEventListener('mouseup', mouseUp, false)
     window.addEventListener('keydown', keyDown, false)
@@ -21,24 +21,21 @@ function main() {
 }
 
 function glInit() {
-    glVar.shader.vertexSource = `#version 300 es
-
-        in vec4 a_position;
+    glVar.shader.vertexSource = `
+        attribute vec4 a_position;
 
         void main() {
             gl_Position = a_position;
         }
     `
 
-    glVar.shader.fragmentSource = `#version 300 es
+    glVar.shader.fragmentSource = `
+        precision mediump float;
 
-        precision highp float;
-
-        out vec4 outColor;
         uniform vec4 u_color;
 
         void main() {
-            outColor = u_color;
+            gl_FragColor = u_color;
         }
     `
 
@@ -60,8 +57,6 @@ function glInit() {
     glVar.location.position = gl.getAttribLocation(glVar.program, 'a_position')
 
     glVar.buffer.vertex = gl.createBuffer(gl.ARRAY_BUFFER)
-    glVar.vao.vertex = gl.createVertexArray()
-    gl.bindVertexArray(glVar.vao.vertex)
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
     gl.enableVertexAttribArray(glVar.location.position)
     gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)

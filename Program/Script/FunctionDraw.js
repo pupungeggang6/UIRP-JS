@@ -66,7 +66,6 @@ function draw3DSpace() {
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.lineWidth(4)
 
-    gl.bindVertexArray(glVar.vao.vertex)
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
 
     gl.uniform4f(glVar.location.color, 0.0, 0.0, 1.0, 1.0)

@@ -24,10 +24,6 @@ let glVar = {
         position : null,
         color : null
     },
-
-    vao : {
-        vertex : null,
-    }
 }
 
 let glTexture = {
