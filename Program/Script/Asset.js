@@ -14,6 +14,9 @@ let img = {
         glass : new Image(),
         camera : new Image(),
         light : new Image(),
+
+        up : new Image(),
+        down : new Image(),
     }
 }
 
@@ -32,4 +35,7 @@ function imageLoad() {
     img.button.glass.src = 'Image/ButtonGlass.png'
     img.button.camera.src = 'Image/ButtonCamera.png'
     img.button.light.src = 'Image/ButtonLight.png'
+
+    img.button.up.src = 'Image/ButtonUp.png'
+    img.button.down.src = 'Image/ButtonDown.png'
 }

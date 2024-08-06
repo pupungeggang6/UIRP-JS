@@ -38,6 +38,10 @@ let delta
 let scene = 'Main'
 let state = ''
 
+let selected = {
+    space3DThing : -1,
+}
+
 let space3D = [
-    {'Name' : 'Cube1', 'Type' : 'Cube', 'Geometry' : [0, 0, 0, 1, 1, 1]}
+    {'Name' : 'Cuboid', 'Type' : 'Cuboid', 'Geometry' : [0, 0, 0, 1, 1, 1, 0, 0, 0]}
 ]
