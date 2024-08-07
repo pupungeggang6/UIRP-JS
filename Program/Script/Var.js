@@ -43,5 +43,9 @@ let selected = {
 }
 
 let space3D = [
-    {'Name' : 'Cuboid', 'Type' : 'Cuboid', 'Geometry' : [0, 0, 0, 1, 1, 1, 0, 0, 0]}
+    
 ]
+
+let editor = {
+    textName : null,
+}

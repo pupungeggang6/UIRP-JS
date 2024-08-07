@@ -17,6 +17,8 @@ let img = {
 
         up : new Image(),
         down : new Image(),
+        done : new Image(),
+        delete : new Image(),
     }
 }
 
@@ -38,4 +40,6 @@ function imageLoad() {
 
     img.button.up.src = 'Image/ButtonUp.png'
     img.button.down.src = 'Image/ButtonDown.png'
+    img.button.done.src = 'Image/ButtonDone.png'
+    img.button.delete.src = 'Image/ButtonDelete.png'
 }

@@ -41,28 +41,36 @@ function drawBarLeft() {
 
 function drawBarRight() {
     context.strokeRect(UI.barRight.rect[0], UI.barRight.rect[1], UI.barRight.rect[2], UI.barRight.rect[3])
-    let xyz = ['X', 'Y', 'Z']
 
     if (state === 'SelectedSpace3D') {
+        let xyz = ['X', 'Y', 'Z']
+        context.fillText(`${space3D[selected.space3DThing]['Name']}`, UI.barRight.textName[0], UI.barRight.textName[1])
+        context.strokeRect(UI.barRight.textNameRect[0], UI.barRight.textNameRect[1], UI.barRight.textNameRect[2], UI.barRight.textNameRect[3])
+
         context.fillText(`Position`, UI.barRight.textPosition[0], UI.barRight.textPosition[1])
         context.fillText(`Rotation`, UI.barRight.textRotation[0], UI.barRight.textRotation[1])
+        context.fillText(`Size`, UI.barRight.textSize[0], UI.barRight.textSize[1])
 
         for (let i = 0; i < 3; i++) {
             context.fillText(`${xyz[i]}${space3D[selected.space3DThing]['Geometry'][i].toFixed(1)}`, UI.barRight.textPositions[i][0], UI.barRight.textPositions[i][1])
             context.fillText(`${xyz[i]}${space3D[selected.space3DThing]['Geometry'][i + 6].toFixed(1)}`, UI.barRight.textRotations[i][0], UI.barRight.textRotations[i][1])
+            context.fillText(`${xyz[i]}${space3D[selected.space3DThing]['Geometry'][i + 3].toFixed(1)}`, UI.barRight.textSizes[i][0], UI.barRight.textSizes[i][1])
         }
 
         for (let i = 0; i < 6; i++) {
             if (i % 2 === 0) {
                 context.drawImage(img.button.up, UI.barRight.buttonPosition[i][0], UI.barRight.buttonPosition[i][1])
                 context.drawImage(img.button.up, UI.barRight.buttonRotation[i][0], UI.barRight.buttonRotation[i][1])
+                context.drawImage(img.button.up, UI.barRight.buttonSize[i][0], UI.barRight.buttonSize[i][1])
             } else {
                 context.drawImage(img.button.down, UI.barRight.buttonPosition[i][0], UI.barRight.buttonPosition[i][1])
                 context.drawImage(img.button.down, UI.barRight.buttonRotation[i][0], UI.barRight.buttonRotation[i][1])
+                context.drawImage(img.button.down, UI.barRight.buttonSize[i][0], UI.barRight.buttonSize[i][1])
             }
         }
 
-        context.strokeRect(UI.barRight.buttonFinish[0], UI.barRight.buttonFinish[1], UI.barRight.buttonFinish[2], UI.barRight.buttonFinish[3])
+        context.drawImage(img.button.delete, UI.barRight.buttonDelete[0], UI.barRight.buttonDelete[1])
+        context.drawImage(img.button.done, UI.barRight.buttonDone[0], UI.barRight.buttonDone[1])
     }
 }
 

@@ -5,12 +5,15 @@ window.oncontextmenu = rightClick
 function main() {
     canvas = document.getElementById('ScreenUI')
     canvasG = document.getElementById('Screen3D')
+    editor.textName = document.getElementById('TextName')
     context = canvas.getContext('2d')
     gl = canvasG.getContext('webgl')
 
-    canvas.addEventListener('mouseup', mouseUp, false)
+    window.addEventListener('mouseup', mouseUp, false)
     window.addEventListener('keydown', keyDown, false)
     window.addEventListener('keyup', keyUp, false)
+    window.addEventListener('touchend', touchEnd, false)
+    editor.textName.addEventListener('change', onTextNameChange, false)
 
     imageLoad()
     glInit()
@@ -76,8 +79,9 @@ function loop() {
 }
 
 function mouseUp(event) {
-    let x = event.clientX
-    let y = event.clientY
+    let targetRect = canvas.getBoundingClientRect()
+    let x = event.clientX - targetRect.left
+    let y = event.clientY - targetRect.top
     let button = event.button
 
     if (scene === 'Main') {
@@ -106,6 +110,24 @@ function keyUp(event) {
 
     if (scene === 'Main') {
         keyUpMain()
+    }
+}
+
+function touchEnd(event) {
+    let targetRect = canvas.getBoundingClientRect()
+    let x = event.changedTouches[0].pageX - targetRect.left
+    let y = event.changedTouches[0].pageY - targetRect.top
+
+    if (scene === 'Main') {
+        mouseUpMain(x, y, 0)
+    }
+}
+
+function onTextNameChange(event) {
+    if (scene === 'Main') {
+        if (state === 'SelectedSpace3D') {
+            space3D[selected.space3DThing]['Name'] = editor.textName.value
+        }
     }
 }
 

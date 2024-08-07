@@ -25,12 +25,28 @@ function mouseUpMain(x, y, button) {
                 if (pointInsideRect(x, y, UI.barLeft.elementStart[0] + UI.barLeft.elementInterval[0] * i,  UI.barLeft.elementStart[1] + UI.barLeft.elementInterval[1] * i, UI.barLeft.elementRect[0], UI.barLeft.elementRect[1])) {
                     state = 'SelectedSpace3D'
                     selected.space3DThing = i
+                    editor.textName.value = space3D[selected.space3DThing]['Name']
                 }
             }
         } else if (state === 'SelectedSpace3D') {
-            if (pointInsideRectArray(x, y, UI.barRight.buttonFinish)) {
+            if (pointInsideRectArray(x, y, UI.barRight.buttonDone)) {
                 selected.space3DThing = -1
                 state = ''
+                editor.textName.value = ''
+            }
+
+            if (pointInsideRectArray(x, y, UI.barRight.buttonDelete)) {
+                space3D.splice(selected.space3DThing, 1)
+                selected.space3DThing = -1
+                state = ''
+                editor.textName.value = ''
+            }
+
+            for (let i = 0; i < space3D.length; i++) {
+                if (pointInsideRect(x, y, UI.barLeft.elementStart[0] + UI.barLeft.elementInterval[0] * i,  UI.barLeft.elementStart[1] + UI.barLeft.elementInterval[1] * i, UI.barLeft.elementRect[0], UI.barLeft.elementRect[1])) {
+                    selected.space3DThing = i
+                    editor.textName.value = space3D[selected.space3DThing]['Name']
+                }
             }
 
             for (let i = 0; i < 6; i++) {
@@ -63,6 +79,22 @@ function mouseUpMain(x, y, button) {
                         space3D[selected.space3DThing]['Geometry'][8] += 5
                     } else if (i === 5) {
                         space3D[selected.space3DThing]['Geometry'][8] -= 5
+                    }
+                }
+
+                if (pointInsideRectArray(x, y, UI.barRight.buttonSize[i])) {
+                    if (i === 0) {
+                        space3D[selected.space3DThing]['Geometry'][3] += 0.1
+                    } else if (i === 1) {
+                        space3D[selected.space3DThing]['Geometry'][3] -= 0.1
+                    } else if (i === 2) {
+                        space3D[selected.space3DThing]['Geometry'][4] += 0.1
+                    } else if (i === 3) {
+                        space3D[selected.space3DThing]['Geometry'][4] -= 0.1
+                    } else if (i === 4) {
+                        space3D[selected.space3DThing]['Geometry'][5] += 0.1
+                    } else if (i === 5) {
+                        space3D[selected.space3DThing]['Geometry'][5] -= 0.1
                     }
                 }
             }
