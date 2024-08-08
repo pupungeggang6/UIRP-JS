@@ -27,12 +27,18 @@ function mouseUpMain(x, y, button) {
                 camera.position = [0, 0, 0]
                 camera.rotation = [0, 0, 0]
                 space3D = {}
-            } else if (pointInsideRect(x, y, UI.barTop.buttonSave)) {
-                //saveFile()
+            } else if (pointInsideRectArray(x, y, UI.barTop.buttonSave)) {
+                saveFile()
             }
 
             if (pointInsideRectArray(x, y, UI.barTop.buttonConvertImage)) {
-                
+                draw3DSpace()
+                contextImageFull.clearRect(0, 0, 320, 320)
+                contextImageFull.drawImage(canvasG, 0, 0)
+            }
+
+            if (pointInsideRectArray(x, y, UI.barTop.buttonDownload)) {
+                downloadImage()
             }
 
             if (pointInsideRectArray(x, y, UI.barTop.buttonCube)) {

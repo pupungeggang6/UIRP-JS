@@ -4,6 +4,10 @@ let canvasG
 let context
 let gl
 
+let elementImageFull
+let canvasImageFull
+let contextImageFull
+
 let glVar = {
     program : null,
 

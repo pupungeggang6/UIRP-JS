@@ -2,10 +2,14 @@ function drawSceneInit() {
     context.font = '32px neodgm'
     context.textAlign = 'left'
     context.textBaseline = 'top'
-    context.fillStyle = 'Black'
+    context.fillStyle = 'White'
     context.strokeStyle = 'Black'
     context.lineWidth = 2
+    
     context.clearRect(0, 0, 1280, 720)
+
+    context.fillRect(0, 0, 1280, 720)
+    context.fillStyle = 'Black'
 }
 
 function drawBarTop() {
@@ -107,6 +111,7 @@ function drawBarBottom() {
 
 function drawImageFull() {
     context.strokeRect(UI.imageFull[0], UI.imageFull[1], UI.imageFull[2], UI.imageFull[3])
+    context.drawImage(canvasImageFull, UI.imageFull[0], UI.imageFull[1])
 }
 
 function drawImageBackground() {

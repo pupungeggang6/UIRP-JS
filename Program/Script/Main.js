@@ -7,7 +7,13 @@ function main() {
     canvasG = document.getElementById('Screen3D')
     editor.textName = document.getElementById('TextName')
     context = canvas.getContext('2d')
-    gl = canvasG.getContext('webgl', {preserveDrawingBuffer : true})
+    gl = canvasG.getContext('webgl2')
+
+    elementImageFull = document.createElement('img')
+    canvasImageFull = document.createElement('canvas')
+    contextImageFull = canvasImageFull.getContext('2d')
+    canvasImageFull.width = 320
+    canvasImageFull.height = 320
 
     window.addEventListener('mouseup', mouseUp, false)
     window.addEventListener('keydown', keyDown, false)

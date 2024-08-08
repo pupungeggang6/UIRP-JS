@@ -5,14 +5,6 @@ function drawSceneGInit() {
     gl.uniformMatrix4fv(locationMatrix, false, matrixView)
     gl.lineWidth(4)
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferVertex)
-    /*
-    gl.uniform4f(locationColor, 0.0, 0.0, 1.0, 1.0)
-    gl.bindBuffer(gl.ARRAY_BUFFER, bufferVertex)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, 1, 0, 1, -1, 0, 1, 1, 0]), gl.STATIC_DRAW)
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bufferIndex)
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2]), gl.STATIC_DRAW)
-    gl.drawArrays(gl.TRIANGLES, 0, 3)
-    */
 }
 
 function drawCube(point) {
