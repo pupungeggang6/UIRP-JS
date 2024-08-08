@@ -1,4 +1,10 @@
 function loopMain() {
+    if (state === 'SelectedSpace3D') {
+        editor.textName.style.visibility ='visible'
+    } else {
+        editor.textName.style.visibility ='hidden'
+    }
+
     displayMain()
 }
 
@@ -17,8 +23,22 @@ function displayMain() {
 function mouseUpMain(x, y, button) {
     if (button === 0) {
         if (state === '') {
+            if (pointInsideRectArray(x, y, UI.barTop.buttonFileNew)) {
+                camera.position = [0, 0, 0]
+                camera.rotation = [0, 0, 0]
+                space3D = {}
+            } else if (pointInsideRect(x, y, UI.barTop.buttonSave)) {
+                //saveFile()
+            }
+
+            if (pointInsideRectArray(x, y, UI.barTop.buttonConvertImage)) {
+                
+            }
+
             if (pointInsideRectArray(x, y, UI.barTop.buttonCube)) {
                 space3D.push({'Name' : 'Cuboid', 'Type' : 'Cuboid', 'Geometry' : [0, 0, 0, 1, 1, 1, 0, 0, 0]})
+            } else if (pointInsideRectArray(x, y, UI.barTop.buttonCamera)) {
+                state = 'Camera'
             }
 
             for (let i = 0; i < space3D.length; i++) {
@@ -95,6 +115,44 @@ function mouseUpMain(x, y, button) {
                         space3D[selected.space3DThing]['Geometry'][5] += 0.1
                     } else if (i === 5) {
                         space3D[selected.space3DThing]['Geometry'][5] -= 0.1
+                    }
+                }
+            }
+        } else if (state === 'Camera') {
+            if (pointInsideRectArray(x, y, UI.barRight.buttonDone)) {
+                state = ''
+            }
+
+            for (let i = 0; i < 6; i++) {
+                if (pointInsideRectArray(x, y, UI.barRight.buttonPosition[i])) {
+                    if (i === 0) {
+                        camera.position[0] += 0.1
+                    } else if (i === 1) {
+                        camera.position[0] -= 0.1
+                    } else if (i === 2) {
+                        camera.position[1] += 0.1
+                    } else if (i === 3) {
+                        camera.position[1] -= 0.1
+                    } else if (i === 4) {
+                        camera.position[2] += 0.1
+                    } else if (i === 5) {
+                        camera.position[2] -= 0.1
+                    }
+                }
+
+                if (pointInsideRectArray(x, y, UI.barRight.buttonRotation[i])) {
+                    if (i === 0) {
+                        camera.rotation[0] += 5
+                    } else if (i === 1) {
+                        camera.rotation[0] -= 5
+                    } else if (i === 2) {
+                        camera.rotation[1] += 5
+                    } else if (i === 3) {
+                        camera.rotation[1] -= 5
+                    } else if (i === 4) {
+                        camera.rotation[2] += 5
+                    } else if (i === 5) {
+                        camera.rotation[2] -= 5
                     }
                 }
             }

@@ -7,7 +7,7 @@ function main() {
     canvasG = document.getElementById('Screen3D')
     editor.textName = document.getElementById('TextName')
     context = canvas.getContext('2d')
-    gl = canvasG.getContext('webgl')
+    gl = canvasG.getContext('webgl', {preserveDrawingBuffer : true})
 
     window.addEventListener('mouseup', mouseUp, false)
     window.addEventListener('keydown', keyDown, false)
@@ -26,9 +26,10 @@ function main() {
 function glInit() {
     glVar.shader.vertexSource = `
         attribute vec4 a_position;
+        uniform mat4 u_camera;
 
         void main() {
-            gl_Position = a_position;
+            gl_Position = u_camera * a_position;
         }
     `
 
@@ -58,6 +59,7 @@ function glInit() {
 
     glVar.location.color = gl.getUniformLocation(glVar.program, 'u_color')
     glVar.location.position = gl.getAttribLocation(glVar.program, 'a_position')
+    glVar.location.camera = gl.getUniformLocation(glVar.program, 'u_camera')
 
     glVar.buffer.vertex = gl.createBuffer(gl.ARRAY_BUFFER)
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)

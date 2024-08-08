@@ -1,3 +1,24 @@
+function matrixIdentity() {
+    return [
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    ]
+}
+
+function matrixMultiply(mat1, mat2) {
+    let result = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+            result[i * 4 + j] = mat1[i * 4 + 0] * mat2[j + 0] + mat1[i * 4 + 1] * mat2[j + 4] + mat1[i * 4 + 2] * mat2[j + 8] + mat1[i * 4 + 3] * mat2[j + 12]
+        }
+    }
+
+    return result
+}
+
 function matrixRotate(axis, angle) {
     let s = Math.sin(angle / 180 * Math.PI)
     let c = Math.cos(angle / 180 * Math.PI)

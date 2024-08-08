@@ -44,8 +44,6 @@ function drawBarRight() {
 
     if (state === 'SelectedSpace3D') {
         let xyz = ['X', 'Y', 'Z']
-        context.fillText(`${space3D[selected.space3DThing]['Name']}`, UI.barRight.textName[0], UI.barRight.textName[1])
-        context.strokeRect(UI.barRight.textNameRect[0], UI.barRight.textNameRect[1], UI.barRight.textNameRect[2], UI.barRight.textNameRect[3])
 
         context.fillText(`Position`, UI.barRight.textPosition[0], UI.barRight.textPosition[1])
         context.fillText(`Rotation`, UI.barRight.textRotation[0], UI.barRight.textRotation[1])
@@ -70,6 +68,29 @@ function drawBarRight() {
         }
 
         context.drawImage(img.button.delete, UI.barRight.buttonDelete[0], UI.barRight.buttonDelete[1])
+        context.drawImage(img.button.done, UI.barRight.buttonDone[0], UI.barRight.buttonDone[1])
+    }
+
+    if (state === 'Camera') {
+        let xyz = ['X', 'Y', 'Z']
+        context.fillText(`Position`, UI.barRight.textPosition[0], UI.barRight.textPosition[1])
+        context.fillText(`Rotation`, UI.barRight.textRotation[0], UI.barRight.textRotation[1])
+
+        for (let i = 0; i < 3; i++) {
+            context.fillText(`${xyz[i]}${camera.position[i].toFixed(1)}`, UI.barRight.textPositions[i][0], UI.barRight.textPositions[i][1])
+            context.fillText(`${xyz[i]}${camera.rotation[i].toFixed(1)}`, UI.barRight.textRotations[i][0], UI.barRight.textRotations[i][1])
+        }
+
+        for (let i = 0; i < 6; i++) {
+            if (i % 2 === 0) {
+                context.drawImage(img.button.up, UI.barRight.buttonPosition[i][0], UI.barRight.buttonPosition[i][1])
+                context.drawImage(img.button.up, UI.barRight.buttonRotation[i][0], UI.barRight.buttonRotation[i][1])
+            } else {
+                context.drawImage(img.button.down, UI.barRight.buttonPosition[i][0], UI.barRight.buttonPosition[i][1])
+                context.drawImage(img.button.down, UI.barRight.buttonRotation[i][0], UI.barRight.buttonRotation[i][1])
+            }
+        }
+
         context.drawImage(img.button.done, UI.barRight.buttonDone[0], UI.barRight.buttonDone[1])
     }
 }
@@ -101,6 +122,14 @@ function draw3DSpace() {
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.lineWidth(4)
 
+    cameraMatrix = matrixIdentity()
+    cameraMatrix = matrixMultiply(matrixRotate(2, camera.rotation[2]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(1, camera.rotation[1]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(0, camera.rotation[0]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixTranslate(-camera.position[0], -camera.position[1], -camera.position[2]), cameraMatrix)
+
+    gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 1])
+
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
 
     for (let i = 0; i < space3D.length; i++) {
@@ -127,6 +156,7 @@ function drawCuboid(geometry) {
         vertice[i] = matrixVectorTransform(matrixRotate(1, geometry[7]), vertice[i])
         vertice[i] = matrixVectorTransform(matrixRotate(0, geometry[6]), vertice[i])
         vertice[i] = matrixVectorTransform(matrixTranslate(geometry[0], geometry[1], geometry[2]), vertice[i])
+        vertice[i] = matrixVectorTransform(cameraMatrix, vertice[i])
     }
 
     face = [[0, 2, 1], [0, 3, 2], [0, 1, 5], [0, 5, 4], [0, 4, 7], [0, 7, 3], [5, 6, 7], [5, 7, 4], [2, 3, 7], [2, 7, 6], [1, 2, 6], [1, 6, 5]]

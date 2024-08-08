@@ -22,7 +22,8 @@ let glVar = {
 
     location : {
         position : null,
-        color : null
+        color : null,
+        camera : null,
     },
 }
 
@@ -45,6 +46,17 @@ let selected = {
 let space3D = [
     
 ]
+
+let camera = {
+    position : [0, 0, 0],
+    rotation : [0, 0, 0]
+}
+
+let light = {
+    direction : [0, 0, -1]
+}
+
+let cameraMatrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 1]
 
 let editor = {
     textName : null,
