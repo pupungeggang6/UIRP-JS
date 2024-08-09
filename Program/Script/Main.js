@@ -17,7 +17,6 @@ function main() {
     window.addEventListener('mouseup', mouseUp, false)
     window.addEventListener('keydown', keyDown, false)
     window.addEventListener('keyup', keyUp, false)
-    window.addEventListener('touchend', touchEnd, false)
     editor.textName.addEventListener('change', onTextNameChange, false)
 
     imageLoad()
@@ -118,18 +117,6 @@ function keyUp(event) {
     if (scene === 'Main') {
         keyUpMain()
     }
-}
-
-function touchEnd(event) {
-    let targetRect = canvas.getBoundingClientRect()
-    let x = event.changedTouches[0].pageX - targetRect.left
-    let y = event.changedTouches[0].pageY - targetRect.top
-
-    if (scene === 'Main') {
-        mouseUpMain(x, y, 0)
-    }
-
-    event.preventDefault()
 }
 
 function onTextNameChange(event) {
