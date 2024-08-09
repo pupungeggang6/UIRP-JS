@@ -9,7 +9,6 @@ function main() {
     context = canvas.getContext('2d')
     gl = canvasG.getContext('webgl2')
 
-    elementImageFull = document.createElement('img')
     canvasImageFull = document.createElement('canvas')
     contextImageFull = canvasImageFull.getContext('2d')
     canvasImageFull.width = 320

@@ -41,6 +41,15 @@ function mouseUpMain(x, y, button) {
                 downloadImage()
             }
 
+            if (pointInsideRectArray(x, y, UI.barTop.buttonGenerateImage)) {
+                generateSpace(10)
+                generateImages()
+            }
+
+            if (pointInsideRectArray(x, y, UI.barTop.buttonDownloadMultiple)) {
+                downloadImageGenerated()
+            }
+
             if (pointInsideRectArray(x, y, UI.barTop.buttonCube)) {
                 space3D.push({'Name' : 'Cuboid', 'Type' : 'Cuboid', 'Geometry' : [0, 0, 0, 1, 1, 1, 0, 0, 0]})
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonCamera)) {

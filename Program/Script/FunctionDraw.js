@@ -15,15 +15,17 @@ function drawSceneInit() {
 function drawBarTop() {
     context.strokeRect(UI.barTop.rect[0], UI.barTop.rect[1], UI.barTop.rect[2], UI.barTop.rect[3])
 
-    context.drawImage(img.button.fileNew, UI.barTop.buttonFileNew[0], UI.barTop.buttonFileNew[1], UI.barTop.buttonFileNew[2], UI.barTop.buttonFileNew[3])
-    context.drawImage(img.button.save, UI.barTop.buttonSave[0], UI.barTop.buttonSave[1], UI.barTop.buttonSave[2], UI.barTop.buttonSave[3])
-    context.drawImage(img.button.load, UI.barTop.buttonLoad[0], UI.barTop.buttonLoad[1], UI.barTop.buttonLoad[2], UI.barTop.buttonLoad[3])
+    context.drawImage(img.button.fileNew, UI.barTop.buttonFileNew[0], UI.barTop.buttonFileNew[1])
+    context.drawImage(img.button.save, UI.barTop.buttonSave[0], UI.barTop.buttonSave[1])
+    context.drawImage(img.button.load, UI.barTop.buttonLoad[0], UI.barTop.buttonLoad[1])
 
-    context.drawImage(img.button.convertImage, UI.barTop.buttonConvertImage[0], UI.barTop.buttonConvertImage[1], UI.barTop.buttonConvertImage[2], UI.barTop.buttonConvertImage[3])
-    context.drawImage(img.button.download, UI.barTop.buttonDownload[0], UI.barTop.buttonDownload[1], UI.barTop.buttonDownload[2], UI.barTop.buttonDownload[3])
-    context.drawImage(img.button.upload, UI.barTop.buttonUpload[0], UI.barTop.buttonUpload[1], UI.barTop.buttonUpload[2], UI.barTop.buttonUpload[3])
-    context.drawImage(img.button.train, UI.barTop.buttonTrain[0], UI.barTop.buttonTrain[1], UI.barTop.buttonTrain[2], UI.barTop.buttonTrain[3])
-    context.drawImage(img.button.removeReflection, UI.barTop.buttonRemoveReflection[0], UI.barTop.buttonRemoveReflection[1], UI.barTop.buttonRemoveReflection[2], UI.barTop.buttonRemoveReflection[3])
+    context.drawImage(img.button.convertImage, UI.barTop.buttonConvertImage[0], UI.barTop.buttonConvertImage[1])
+    context.drawImage(img.button.download, UI.barTop.buttonDownload[0], UI.barTop.buttonDownload[1])
+    context.drawImage(img.button.upload, UI.barTop.buttonUpload[0], UI.barTop.buttonUpload[1])
+    context.drawImage(img.button.generateImage, UI.barTop.buttonGenerateImage[0], UI.barTop.buttonGenerateImage[1])
+    context.drawImage(img.button.downloadMultiple, UI.barTop.buttonDownloadMultiple[0], UI.barTop.buttonDownloadMultiple[1])
+    context.drawImage(img.button.train, UI.barTop.buttonTrain[0], UI.barTop.buttonTrain[1])
+    context.drawImage(img.button.removeReflection, UI.barTop.buttonRemoveReflection[0], UI.barTop.buttonRemoveReflection[1])
 
     context.drawImage(img.button.cube, UI.barTop.buttonCube[0], UI.barTop.buttonCube[1])
     context.drawImage(img.button.glass, UI.barTop.buttonGlass[0], UI.barTop.buttonGlass[1])
@@ -124,7 +126,8 @@ function drawImageReflection() {
 
 function draw3DSpace() {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
-    gl.clear(gl.COLOR_BUFFER_BIT)
+    gl.enable(gl.DEPTH_TEST)
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
     gl.lineWidth(4)
 
     cameraMatrix = matrixIdentity()
@@ -140,6 +143,31 @@ function draw3DSpace() {
     for (let i = 0; i < space3D.length; i++) {
         if (space3D[i]['Type'] === 'Cuboid') {
             drawCuboid(space3D[i]['Geometry'])
+        }
+    }
+}
+
+function draw3DSpaceGenerated(index) {
+    gl.clearColor(0.0, 0.0, 0.0, 1.0)
+    gl.enable(gl.DEPTH_TEST)
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+    gl.lineWidth(4)
+
+    let tempSpace = space3DGenerated[index]
+
+    cameraMatrix = matrixIdentity()
+    cameraMatrix = matrixMultiply(matrixRotate(2, tempSpace['CameraRotation'][2]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(1, tempSpace['CameraRotation'][1]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(0, tempSpace['CameraRotation'][0]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixTranslate(-tempSpace['CameraPosition'][0], -tempSpace['CameraPosition'][1], -tempSpace['CameraPosition'][2]), cameraMatrix)
+
+    gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 1])
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
+
+    for (let i = 0; i < tempSpace['Thing'].length; i++) {
+        if (tempSpace['Thing'][i]['Type'] === 'Cuboid') {
+            drawCuboid(tempSpace['Thing'][i]['Geometry'])
         }
     }
 }

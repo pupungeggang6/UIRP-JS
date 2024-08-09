@@ -5,16 +5,18 @@ const UI = {
         buttonSave : [40, 0, 40, 40],
         buttonLoad : [80, 0, 40, 40],
 
-        buttonConvertImage : [160, 0, 40, 40],
-        buttonDownload : [200, 0, 40, 40],
-        buttonUpload : [240, 0, 40, 40],
-        buttonTrain : [280, 0, 40, 40],
-        buttonRemoveReflection : [320, 0, 40, 40],
+        buttonCube : [160, 0, 40, 40],
+        buttonGlass : [200, 0, 40, 40],
+        buttonCamera : [240, 0, 40, 40],
+        buttonLight : [280, 0, 40, 40],
 
-        buttonCube : [400, 0, 40, 40],
-        buttonGlass : [440, 0, 40, 40],
-        buttonCamera : [480, 0, 40, 40],
-        buttonLight : [520, 0, 40, 40]
+        buttonConvertImage : [360, 0, 40, 40],
+        buttonDownload : [400, 0, 40, 40],
+        buttonUpload : [440, 0, 40, 40],
+        buttonGenerateImage : [480, 0, 40, 40],
+        buttonDownloadMultiple : [520, 0, 40, 40],
+        buttonTrain : [560, 0, 40, 40],
+        buttonRemoveReflection : [600, 0, 40, 40],
     },
 
     barBottom : {

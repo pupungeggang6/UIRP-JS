@@ -23,6 +23,17 @@ function downloadImage() {
     document.body.removeChild(link)
 }
 
+function downloadImageGenerated() {
+    for (let i = 0; i < canvasGenerate.length; i++) {
+        var link = document.createElement('a')
+        link.download = `generated${i}.png`
+        link.href = canvasGenerate[i].toDataURL()
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    }
+}
+
 function uploadFile() {
 
 }

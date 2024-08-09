@@ -4,9 +4,10 @@ let canvasG
 let context
 let gl
 
-let elementImageFull
 let canvasImageFull
 let contextImageFull
+let canvasGenerate = []
+let contextGenerate = []
 
 let glVar = {
     program : null,
@@ -65,3 +66,6 @@ let cameraMatrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 1]
 let editor = {
     textName : null,
 }
+
+let space3DGenerated = []
+let imageGenerated = []
