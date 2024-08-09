@@ -128,6 +128,8 @@ function touchEnd(event) {
     if (scene === 'Main') {
         mouseUpMain(x, y, 0)
     }
+
+    event.preventDefault()
 }
 
 function onTextNameChange(event) {
