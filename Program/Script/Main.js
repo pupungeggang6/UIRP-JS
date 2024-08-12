@@ -8,6 +8,7 @@ function main() {
     editor.textName = document.getElementById('TextName')
     context = canvas.getContext('2d')
     gl = canvasG.getContext('webgl2')
+    fileDOM = document.getElementById('ImageUpload')
 
     canvasImageFull = document.createElement('canvas')
     contextImageFull = canvasImageFull.getContext('2d')
@@ -31,56 +32,68 @@ function glInit() {
     glVar.shader.vertexSource = `
         attribute vec4 a_position;
         uniform mat4 u_camera;
+        attribute vec2 a_texcoord;
+        varying vec2 v_texcoord;
 
         void main() {
             gl_Position = u_camera * a_position;
+            v_texcoord = a_texcoord;
         }
     `
 
     glVar.shader.fragmentSource = `
         precision mediump float;
-
         uniform vec4 u_color;
+        varying vec2 v_texcoord;
+        uniform sampler2D u_texture;
+        uniform int u_mode;
 
         void main() {
-            gl_FragColor = u_color;
+            if (u_mode == 1) {
+                gl_FragColor = texture2D(u_texture, v_texcoord);
+            } else {
+                gl_FragColor = u_color;
+            }
         }
     `
 
     glVar.shader.vertex = gl.createShader(gl.VERTEX_SHADER)
     gl.shaderSource(glVar.shader.vertex, glVar.shader.vertexSource)
     gl.compileShader(glVar.shader.vertex)
-
     glVar.shader.fragment = gl.createShader(gl.FRAGMENT_SHADER)
     gl.shaderSource(glVar.shader.fragment, glVar.shader.fragmentSource)
     gl.compileShader(glVar.shader.fragment)
-
     glVar.program = gl.createProgram()
     gl.attachShader(glVar.program, glVar.shader.vertex)
     gl.attachShader(glVar.program, glVar.shader.fragment)
     gl.linkProgram(glVar.program)
-    gl.useProgram(glVar.program)
 
     glVar.location.color = gl.getUniformLocation(glVar.program, 'u_color')
     glVar.location.position = gl.getAttribLocation(glVar.program, 'a_position')
     glVar.location.camera = gl.getUniformLocation(glVar.program, 'u_camera')
+    glVar.location.texture = gl.getAttribLocation(glVar.program, 'a_texcoord')
+    glVar.location.mode = gl.getUniformLocation(glVar.program, 'u_mode')
+    gl.enableVertexAttribArray(glVar.location.position)
 
     glVar.buffer.vertex = gl.createBuffer(gl.ARRAY_BUFFER)
-    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
-    gl.enableVertexAttribArray(glVar.location.position)
-    gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)
+    glVar.buffer.texture = gl.createBuffer(gl.ARRAY_BUFFER)
 
-    gl.enable(gl.DEPTH_TEST)
+    glVar.texture = gl.createTexture()
+    gl.bindTexture(gl.TEXTURE_2D, glVar.texture)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
 }
 
 function loop() {
+    programFramePrevious = programFrameCurrent
     programFrameCurrent = Date.now()
+    delta = programFrameCurrent - programFramePrevious
 
     if (scene === 'Main') {
         loopMain()
     }
 
-    programFramePrevious = Date.now()
     programLoop = requestAnimationFrame(loop)
 }
 

@@ -30,6 +30,22 @@
                 font-size : 32px;
             }
 
+            #ImageUpload {
+                border : 2px solid black;
+                position : absolute;
+                left : 960px;
+                top : 400px;
+                font-family : 'neodgm';
+                font-size : 16px;
+            }
+
+            #Test {
+                border : 2px solid black;
+                position : absolute;
+                left : 1280px;
+                top : 0px;
+            }
+
             @font-face {
                 font-family: 'neodgm';
                 src: url('Font/neodgm.ttf');
@@ -39,7 +55,9 @@
     <body>
         <canvas id="ScreenUI" width="1280" height="720"></canvas>
         <canvas id="Screen3D" width="320" height="320"></canvas>
+        <canvas id="Test" width="320" height="320"></canvas>
         <input id="TextName" type="text"/>
+        <input id="ImageUpload" type="file" accept="image/*" onchange="changeTexture(this)">
 
         <script src="Script/Asset.js"></script>
         <script src="Script/UI.js"></script>

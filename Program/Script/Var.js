@@ -9,6 +9,8 @@ let contextImageFull
 let canvasGenerate = []
 let contextGenerate = []
 
+let fileDOM
+
 let glVar = {
     program : null,
 
@@ -29,11 +31,11 @@ let glVar = {
         position : null,
         color : null,
         camera : null,
+        texture : null,
+        mode : null,
     },
-}
 
-let glTexture = {
-
+    texture : null,
 }
 
 let programLoop

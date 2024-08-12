@@ -1,10 +1,19 @@
 function loopMain() {
     if (state === 'SelectedSpace3D') {
         editor.textName.style.visibility ='visible'
+        fileDOM.style.visibility = 'visible'
     } else {
         editor.textName.style.visibility ='hidden'
+        fileDOM.style.visibility = 'hidden'
     }
 
+    /*
+    for (let i = 0; i < space3D.length; i++) {
+        space3D[i]['Geometry'][7] += 30 * delta / 1000
+        space3D[i]['Geometry'][8] += 30 * delta / 1000
+    }
+    */
+   
     displayMain()
 }
 
@@ -51,7 +60,7 @@ function mouseUpMain(x, y, button) {
             }
 
             if (pointInsideRectArray(x, y, UI.barTop.buttonCube)) {
-                space3D.push({'Name' : 'Cuboid', 'Type' : 'Cuboid', 'Geometry' : [0, 0, 0, 1, 1, 1, 0, 0, 0]})
+                space3D.push({'Name' : 'Cuboid', 'Type' : 'Cuboid', 'Geometry' : [0, 0, 0, 1, 1, 1, 0, 0, 0], 'Texture' : null})
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonCamera)) {
                 state = 'Camera'
             }
