@@ -38,6 +38,6 @@ function generateImages() {
 
 function changeTexture(input) {
     let file = input.files[0]
-    space3D[selected.space3DThing]['Texture'] = new Image()
-    space3D[selected.space3DThing]['Texture'].src = URL.createObjectURL(file)
+    space3DTexture[selected.space3DThing] = new Image()
+    space3DTexture[selected.space3DThing].src = URL.createObjectURL(file)
 }

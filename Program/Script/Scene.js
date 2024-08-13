@@ -60,7 +60,8 @@ function mouseUpMain(x, y, button) {
             }
 
             if (pointInsideRectArray(x, y, UI.barTop.buttonCube)) {
-                space3D.push({'Name' : 'Cuboid', 'Type' : 'Cuboid', 'Geometry' : [0, 0, 0, 1, 1, 1, 0, 0, 0], 'Texture' : null})
+                space3D.push({'Name' : 'Cuboid', 'Type' : 'Cuboid', 'Geometry' : [0, 0, 0, 1, 1, 1, 0, 0, 0]})
+                space3DTexture.push(null)
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonCamera)) {
                 state = 'Camera'
             }

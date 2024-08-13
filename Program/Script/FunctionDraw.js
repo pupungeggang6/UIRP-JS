@@ -10,18 +10,6 @@ function drawSceneInit() {
 
     context.fillRect(0, 0, 1280, 720)
     context.fillStyle = 'Black'
-
-    gl.clearColor(0.0, 0.0, 0.0, 1.0)
-    gl.enable(gl.DEPTH_TEST)
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-    gl.lineWidth(4)
-    gl.enable(gl.DEPTH_TEST)
-    gl.useProgram(glVar.program)
-    
-    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
-    gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)
-    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
-    gl.vertexAttribPointer(glVar.location.texture, 2, gl.FLOAT, false, 0, 0)
 }
 
 function drawBarTop() {
@@ -137,6 +125,15 @@ function drawImageReflection() {
 }
 
 function draw3DSpace() {
+    gl.clearColor(0.0, 0.0, 0.0, 1.0)
+    gl.enable(gl.DEPTH_TEST)
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+    gl.lineWidth(4)
+    gl.enable(gl.DEPTH_TEST)
+    gl.useProgram(glVar.program)
+    
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
+    gl.vertexAttribPointer(glVar.location.texture, 2, gl.FLOAT, false, 0, 0)
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
     gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)
 
@@ -146,18 +143,27 @@ function draw3DSpace() {
     cameraMatrix = matrixMultiply(matrixRotate(0, camera.rotation[0]), cameraMatrix)
     cameraMatrix = matrixMultiply(matrixTranslate(-camera.position[0], -camera.position[1], -camera.position[2]), cameraMatrix)
 
-    gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 1])
+    gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -0.5, 0, 0, 0, 0, 1])
 
     for (let i = 0; i < space3D.length; i++) {
         if (space3D[i]['Type'] === 'Cuboid') {
-            drawCuboid(space3D[i]['Geometry'], space3D[i]['Texture'])
+            drawCuboid(space3D[i]['Geometry'], space3DTexture[i])
         }
     }
 }
 
 function draw3DSpaceGenerated(index) {
+    gl.clearColor(0.0, 0.0, 0.0, 1.0)
+    gl.enable(gl.DEPTH_TEST)
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+    gl.lineWidth(4)
+    gl.enable(gl.DEPTH_TEST)
+    gl.useProgram(glVar.program)
+    
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
     gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
+    gl.vertexAttribPointer(glVar.location.texture, 2, gl.FLOAT, false, 0, 0)
 
     let tempSpace = space3DGenerated[index]
 
@@ -167,11 +173,11 @@ function draw3DSpaceGenerated(index) {
     cameraMatrix = matrixMultiply(matrixRotate(0, tempSpace['CameraRotation'][0]), cameraMatrix)
     cameraMatrix = matrixMultiply(matrixTranslate(-tempSpace['CameraPosition'][0], -tempSpace['CameraPosition'][1], -tempSpace['CameraPosition'][2]), cameraMatrix)
 
-    gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 1])
+    gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -0.5, 0, 0, 0, 0, 1])
 
     for (let i = 0; i < tempSpace['Thing'].length; i++) {
         if (tempSpace['Thing'][i]['Type'] === 'Cuboid') {
-            drawCuboid(tempSpace['Thing'][i]['Geometry'], tempSpace['Thing'][i]['Texture'])
+            drawCuboid(tempSpace['Thing'][i]['Geometry'], space3DTexture[i])
         }
     }
 }
@@ -196,7 +202,7 @@ function drawCuboid(geometry, texture) {
         vertice[i] = matrixVectorTransform(cameraMatrix, vertice[i])
     }
 
-    face = [[0, 2, 1, 0, 3, 2], [0, 1, 5, 0, 5, 4], [0, 4, 7, 0, 7, 3], [5, 6, 7, 5, 7, 4], [2, 3, 7, 2, 7, 6], [1, 2, 6, 1, 6, 5]]
+    face = [[2, 1, 3, 3, 1, 0], [0, 1, 4, 4, 1, 5], [3, 0, 7, 7, 0, 4], [5, 6, 4, 4, 6, 7], [2, 3, 6, 6, 3, 7], [1, 2, 5, 5, 2, 6]]
     edge = [[0, 1], [1, 2], [2, 3], [3, 0], [0, 4], [1, 5], [2, 6], [3, 7], [4, 5], [5, 6], [6, 7], [7, 4]]
 
     if (texture === null) {
@@ -216,7 +222,7 @@ function drawCuboid(geometry, texture) {
             gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([vertice[face[i][0]][0], vertice[face[i][0]][1], vertice[face[i][0]][2], vertice[face[i][1]][0], vertice[face[i][1]][1], vertice[face[i][1]][2], vertice[face[i][2]][0], vertice[face[i][2]][1], vertice[face[i][2]][2], vertice[face[i][3]][0], vertice[face[i][3]][1], vertice[face[i][3]][2], vertice[face[i][4]][0], vertice[face[i][4]][1], vertice[face[i][4]][2], vertice[face[i][5]][0], vertice[face[i][5]][1], vertice[face[i][5]][2]]), gl.STATIC_DRAW)
             gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1]), gl.STATIC_DRAW)
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
             gl.drawArrays(gl.TRIANGLES, 0, 6)
         }
     }

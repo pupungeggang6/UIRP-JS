@@ -3,6 +3,8 @@ let canvasG
 
 let context
 let gl
+let test
+let testContext
 
 let canvasImageFull
 let contextImageFull
@@ -54,6 +56,10 @@ let space3D = [
     
 ]
 
+let space3DTexture = [
+    
+]
+
 let camera = {
     position : [0, 0, 0],
     rotation : [0, 0, 0]
@@ -71,3 +77,4 @@ let editor = {
 
 let space3DGenerated = []
 let imageGenerated = []
+let tempTexture

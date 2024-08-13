@@ -15,6 +15,9 @@ function main() {
     canvasImageFull.width = 320
     canvasImageFull.height = 320
 
+    test = document.getElementById('Test')
+    testContext = test.getContext('2d')
+
     window.addEventListener('mouseup', mouseUp, false)
     window.addEventListener('keydown', keyDown, false)
     window.addEventListener('keyup', keyUp, false)
@@ -74,6 +77,7 @@ function glInit() {
     glVar.location.texture = gl.getAttribLocation(glVar.program, 'a_texcoord')
     glVar.location.mode = gl.getUniformLocation(glVar.program, 'u_mode')
     gl.enableVertexAttribArray(glVar.location.position)
+    gl.enableVertexAttribArray(glVar.location.texture)
 
     glVar.buffer.vertex = gl.createBuffer(gl.ARRAY_BUFFER)
     glVar.buffer.texture = gl.createBuffer(gl.ARRAY_BUFFER)
