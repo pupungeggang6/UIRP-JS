@@ -63,12 +63,13 @@ function glInit() {
         varying vec2 v_texcoord;
         uniform sampler2D u_texture;
         uniform int u_mode;
+        uniform vec4 u_brightness;
 
         void main() {
             if (u_mode == 1) {
-                gl_FragColor = texture2D(u_texture, v_texcoord);
+                gl_FragColor = u_brightness * texture2D(u_texture, v_texcoord);
             } else {
-                gl_FragColor = u_color;
+                gl_FragColor = u_brightness * u_color;
             }
         }
     `
@@ -89,6 +90,7 @@ function glInit() {
     glVar.location.camera = gl.getUniformLocation(glVar.program, 'u_camera')
     glVar.location.texture = gl.getAttribLocation(glVar.program, 'a_texcoord')
     glVar.location.mode = gl.getUniformLocation(glVar.program, 'u_mode')
+    glVar.location.brightness = gl.getUniformLocation(glVar.program, 'u_brightness')
     gl.enableVertexAttribArray(glVar.location.position)
     gl.enableVertexAttribArray(glVar.location.texture)
 

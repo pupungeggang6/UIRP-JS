@@ -1,3 +1,7 @@
+function vectorSub(vec1, vec2) {
+    return [vec1[0] - vec2[0], vec1[1] - vec2[1], vec1[2] - vec2[2]]
+}
+
 function vectorCross(vec1, vec2) {
     return [
         vec1[1] * vec2[2] - vec1[2] * vec2[1],
@@ -6,8 +10,16 @@ function vectorCross(vec1, vec2) {
     ]
 }
 
-function vectorAngle(vec1, vec2) {
-    
+function vectorNorm(vec) {
+    return Math.sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2])
+}
+
+function vectorDot(vec1, vec2) {
+    return vec1[0] * vec2[0] + vec1[1] * vec2[1] + vec1[2] * vec2[2] 
+}
+
+function vectorAngleCos(vec1, vec2) {
+    return vectorDot(vec1, vec2) / (vectorNorm(vec1) * vectorNorm(vec2))
 }
 
 function matrixIdentity() {

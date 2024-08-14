@@ -207,9 +207,14 @@ function drawCuboid(geometry, texture) {
 
     if (texture === null) {
         gl.uniform1i(glVar.location.mode, 0)
-        gl.uniform4f(glVar.location.color, 0.0, 1.0, 0.0, 1.0)
 
         for (let i = 0; i < 6; i++) {
+            let normalVector = vectorCross(vectorSub(vertice[face[i][2]], vertice[face[i][1]]), vectorSub(vertice[face[i][0]], vertice[face[i][1]]))
+            let brightness = Math.max(vectorAngleCos(normalVector, [-light.direction[0], -light.direction[1], -light.direction[2]]), 0.1)
+
+            gl.uniform4f(glVar.location.color, 0.0, 1.0, 0.0, 1.0)
+            gl.uniform4f(glVar.location.brightness, brightness, brightness, brightness, 1.0)
+
             gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([vertice[face[i][0]][0], vertice[face[i][0]][1], vertice[face[i][0]][2], vertice[face[i][1]][0], vertice[face[i][1]][1], vertice[face[i][1]][2], vertice[face[i][2]][0], vertice[face[i][2]][1], vertice[face[i][2]][2], vertice[face[i][3]][0], vertice[face[i][3]][1], vertice[face[i][3]][2], vertice[face[i][4]][0], vertice[face[i][4]][1], vertice[face[i][4]][2], vertice[face[i][5]][0], vertice[face[i][5]][1], vertice[face[i][5]][2]]), gl.STATIC_DRAW)
             gl.drawArrays(gl.TRIANGLES, 0, 6)
@@ -219,6 +224,11 @@ function drawCuboid(geometry, texture) {
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture)
 
         for (let i = 0; i < 6; i++) {
+            let normalVector = vectorCross(vectorSub(vertice[face[i][2]], vertice[face[i][1]]), vectorSub(vertice[face[i][0]], vertice[face[i][1]]))
+            let brightness = Math.max(vectorAngleCos(normalVector, [-light.direction[0], -light.direction[1], -light.direction[2]]), 0.1)
+
+            gl.uniform4f(glVar.location.brightness, brightness, brightness, brightness, 1.0)
+
             gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([vertice[face[i][0]][0], vertice[face[i][0]][1], vertice[face[i][0]][2], vertice[face[i][1]][0], vertice[face[i][1]][1], vertice[face[i][1]][2], vertice[face[i][2]][0], vertice[face[i][2]][1], vertice[face[i][2]][2], vertice[face[i][3]][0], vertice[face[i][3]][1], vertice[face[i][3]][2], vertice[face[i][4]][0], vertice[face[i][4]][1], vertice[face[i][4]][2], vertice[face[i][5]][0], vertice[face[i][5]][1], vertice[face[i][5]][2]]), gl.STATIC_DRAW)
             gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)

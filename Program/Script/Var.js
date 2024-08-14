@@ -35,6 +35,7 @@ let glVar = {
         camera : null,
         texture : null,
         mode : null,
+        brightness : null,
     },
 
     texture : null,
