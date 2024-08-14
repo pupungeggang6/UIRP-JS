@@ -2,33 +2,46 @@ window.onload = main
 window.onerror = errorHandle
 window.oncontextmenu = rightClick
 
+const loadPromise = new Promise(function(resolve, reject) {
+    try {
+        imageLoad()
+        resolve('Load success')
+    } catch {
+        reject('Load failed')
+    }
+})
+
 function main() {
-    canvas = document.getElementById('ScreenUI')
-    canvasG = document.getElementById('Screen3D')
-    editor.textName = document.getElementById('TextName')
-    context = canvas.getContext('2d')
-    gl = canvasG.getContext('webgl2')
-    fileDOM = document.getElementById('ImageUpload')
+    loadPromise.then(function () {
+        console.log('Load success')
+        canvas = document.getElementById('ScreenUI')
+        canvasG = document.getElementById('Screen3D')
+        editor.textName = document.getElementById('TextName')
+        context = canvas.getContext('2d')
+        gl = canvasG.getContext('webgl2')
+        fileDOM = document.getElementById('ImageUpload')
 
-    canvasImageFull = document.createElement('canvas')
-    contextImageFull = canvasImageFull.getContext('2d')
-    canvasImageFull.width = 320
-    canvasImageFull.height = 320
+        canvasImageFull = document.createElement('canvas')
+        contextImageFull = canvasImageFull.getContext('2d')
+        canvasImageFull.width = 320
+        canvasImageFull.height = 320
 
-    test = document.getElementById('Test')
-    testContext = test.getContext('2d')
+        test = document.getElementById('Test')
+        testContext = test.getContext('2d')
 
-    window.addEventListener('mouseup', mouseUp, false)
-    window.addEventListener('keydown', keyDown, false)
-    window.addEventListener('keyup', keyUp, false)
-    editor.textName.addEventListener('change', onTextNameChange, false)
+        window.addEventListener('mouseup', mouseUp, false)
+        window.addEventListener('keydown', keyDown, false)
+        window.addEventListener('keyup', keyUp, false)
+        editor.textName.addEventListener('change', onTextNameChange, false)
 
-    imageLoad()
-    glInit()
+        glInit()
 
-    programFrameCurrent = Date.now()
-    programFramePrevious = Date.now() - 16
-    programLoop = requestAnimationFrame(loop)
+        programFrameCurrent = Date.now()
+        programFramePrevious = Date.now() - 16
+        programLoop = requestAnimationFrame(loop)
+    }).catch(function () {
+        alert('Load failed')
+    })
 }
 
 function glInit() {
