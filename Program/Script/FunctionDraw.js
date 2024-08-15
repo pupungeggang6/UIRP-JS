@@ -99,6 +99,25 @@ function drawBarRight() {
 
         context.drawImage(img.button.done, UI.barRight.buttonDone[0], UI.barRight.buttonDone[1])
     }
+
+    if (state === 'Light') {
+        let xyz = ['X', 'Y', 'Z']
+        context.fillText(`Light Direction`, UI.barRight.textPosition[0], UI.barRight.textPosition[1])
+
+        for (let i = 0; i < 3; i++) {
+            context.fillText(`${xyz[i]}${light.direction[i].toFixed(1)}`, UI.barRight.textPositions[i][0], UI.barRight.textPositions[i][1])
+        }
+
+        for (let i = 0; i < 6; i++) {
+            if (i % 2 === 0) {
+                context.drawImage(img.button.up, UI.barRight.buttonPosition[i][0], UI.barRight.buttonPosition[i][1])
+            } else {
+                context.drawImage(img.button.down, UI.barRight.buttonPosition[i][0], UI.barRight.buttonPosition[i][1])
+            }
+        }
+
+        context.drawImage(img.button.done, UI.barRight.buttonDone[0], UI.barRight.buttonDone[1])
+    }
 }
 
 function drawBarBottom() {
@@ -128,7 +147,7 @@ function draw3DSpace() {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.enable(gl.DEPTH_TEST)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-    gl.lineWidth(4)
+    gl.lineWidth(2)
     gl.enable(gl.DEPTH_TEST)
     gl.useProgram(glVar.program)
     
@@ -148,6 +167,8 @@ function draw3DSpace() {
     for (let i = 0; i < space3D.length; i++) {
         if (space3D[i]['Type'] === 'Cuboid') {
             drawCuboid(space3D[i]['Geometry'], space3DTexture[i])
+        } else if (space3D[i]['Type'] === 'Glass') {
+            drawGlass(space3D[i]['Geometry'])
         }
     }
 }
@@ -207,38 +228,27 @@ function drawCuboid(geometry, texture) {
 
     if (texture === null) {
         gl.uniform1i(glVar.location.mode, 0)
-
-        for (let i = 0; i < 6; i++) {
-            let normalVector = vectorCross(vectorSub(vertice[face[i][2]], vertice[face[i][1]]), vectorSub(vertice[face[i][0]], vertice[face[i][1]]))
-            let brightness = Math.max(vectorAngleCos(normalVector, [-light.direction[0], -light.direction[1], -light.direction[2]]), 0.1)
-
-            gl.uniform4f(glVar.location.color, 0.0, 1.0, 0.0, 1.0)
-            gl.uniform4f(glVar.location.brightness, brightness, brightness, brightness, 1.0)
-
-            gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([vertice[face[i][0]][0], vertice[face[i][0]][1], vertice[face[i][0]][2], vertice[face[i][1]][0], vertice[face[i][1]][1], vertice[face[i][1]][2], vertice[face[i][2]][0], vertice[face[i][2]][1], vertice[face[i][2]][2], vertice[face[i][3]][0], vertice[face[i][3]][1], vertice[face[i][3]][2], vertice[face[i][4]][0], vertice[face[i][4]][1], vertice[face[i][4]][2], vertice[face[i][5]][0], vertice[face[i][5]][1], vertice[face[i][5]][2]]), gl.STATIC_DRAW)
-            gl.drawArrays(gl.TRIANGLES, 0, 6)
-        }
+        gl.uniform4f(glVar.location.color, 0.0, 1.0, 0.0, 1.0)
     } else {
         gl.uniform1i(glVar.location.mode, 1)
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture)
-
-        for (let i = 0; i < 6; i++) {
-            let normalVector = vectorCross(vectorSub(vertice[face[i][2]], vertice[face[i][1]]), vectorSub(vertice[face[i][0]], vertice[face[i][1]]))
-            let brightness = Math.max(vectorAngleCos(normalVector, [-light.direction[0], -light.direction[1], -light.direction[2]]), 0.1)
-
-            gl.uniform4f(glVar.location.brightness, brightness, brightness, brightness, 1.0)
-
-            gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([vertice[face[i][0]][0], vertice[face[i][0]][1], vertice[face[i][0]][2], vertice[face[i][1]][0], vertice[face[i][1]][1], vertice[face[i][1]][2], vertice[face[i][2]][0], vertice[face[i][2]][1], vertice[face[i][2]][2], vertice[face[i][3]][0], vertice[face[i][3]][1], vertice[face[i][3]][2], vertice[face[i][4]][0], vertice[face[i][4]][1], vertice[face[i][4]][2], vertice[face[i][5]][0], vertice[face[i][5]][1], vertice[face[i][5]][2]]), gl.STATIC_DRAW)
-            gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
-            gl.drawArrays(gl.TRIANGLES, 0, 6)
-        }
     }
 
-    gl.uniform1i(glVar.location.mode, 0)
-    gl.uniform4f(glVar.location.color, 0.0, 0.0, 1.0, 1.0)
+    for (let i = 0; i < 6; i++) {
+        let normalVector = vectorCross(vectorSub(vertice[face[i][2]], vertice[face[i][1]]), vectorSub(vertice[face[i][0]], vertice[face[i][1]]))
+        let brightness = Math.max(vectorAngleCos(normalVector, [-light.direction[0], -light.direction[1], -light.direction[2]]), 0.1)
+
+        gl.uniform4f(glVar.location.brightness, brightness, brightness, brightness, 1.0)
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([vertice[face[i][0]][0], vertice[face[i][0]][1], vertice[face[i][0]][2], vertice[face[i][1]][0], vertice[face[i][1]][1], vertice[face[i][1]][2], vertice[face[i][2]][0], vertice[face[i][2]][1], vertice[face[i][2]][2], vertice[face[i][3]][0], vertice[face[i][3]][1], vertice[face[i][3]][2], vertice[face[i][4]][0], vertice[face[i][4]][1], vertice[face[i][4]][2], vertice[face[i][5]][0], vertice[face[i][5]][1], vertice[face[i][5]][2]]), gl.STATIC_DRAW)
+        gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
+        gl.drawArrays(gl.TRIANGLES, 0, 6)
+    }
+
+    gl.uniform1i(glVar.location.mode, 2)
+    gl.uniform4f(glVar.location.color, 0.0, 0.0, 0.0, 1.0)
 
     for (let i = 0; i < 12; i++) {
         gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
@@ -247,6 +257,46 @@ function drawCuboid(geometry, texture) {
     }
 }
 
-function applyTexture() {
-   
+function drawGlass(geometry) {
+    vertice = [
+        [-geometry[3] / 2, -geometry[4] / 2, -geometry[5] / 2],
+        [-geometry[3] / 2, -geometry[4] / 2, geometry[5] / 2],
+        [geometry[3] / 2, -geometry[4] / 2, geometry[5] / 2],
+        [geometry[3] / 2, -geometry[4] / 2, -geometry[5] / 2],
+        [-geometry[3] / 2, geometry[4] / 2, -geometry[5] / 2],
+        [-geometry[3] / 2, geometry[4] / 2, geometry[5] / 2],
+        [geometry[3] / 2, geometry[4] / 2, geometry[5] / 2],
+        [geometry[3] / 2, geometry[4] / 2, -geometry[5] / 2],
+    ]
+
+    for (let i = 0; i < 8; i++) {
+        vertice[i] = matrixVectorTransform(matrixRotate(2, geometry[8]), vertice[i])
+        vertice[i] = matrixVectorTransform(matrixRotate(1, geometry[7]), vertice[i])
+        vertice[i] = matrixVectorTransform(matrixRotate(0, geometry[6]), vertice[i])
+        vertice[i] = matrixVectorTransform(matrixTranslate(geometry[0], geometry[1], geometry[2]), vertice[i])
+        vertice[i] = matrixVectorTransform(cameraMatrix, vertice[i])
+    }
+
+    face = [[2, 1, 3, 3, 1, 0], [0, 1, 4, 4, 1, 5], [3, 0, 7, 7, 0, 4], [5, 6, 4, 4, 6, 7], [2, 3, 6, 6, 3, 7], [1, 2, 5, 5, 2, 6]]
+    edge = [[0, 1], [1, 2], [2, 3], [3, 0], [0, 4], [1, 5], [2, 6], [3, 7], [4, 5], [5, 6], [6, 7], [7, 4]]
+
+    gl.uniform1i(glVar.location.mode, 2)
+    gl.uniform4f(glVar.location.color, 0.0, 1.0, 1.0, 0.1)
+
+    for (let i = 0; i < 6; i++) {
+        gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([vertice[face[i][0]][0], vertice[face[i][0]][1], vertice[face[i][0]][2], vertice[face[i][1]][0], vertice[face[i][1]][1], vertice[face[i][1]][2], vertice[face[i][2]][0], vertice[face[i][2]][1], vertice[face[i][2]][2], vertice[face[i][3]][0], vertice[face[i][3]][1], vertice[face[i][3]][2], vertice[face[i][4]][0], vertice[face[i][4]][1], vertice[face[i][4]][2], vertice[face[i][5]][0], vertice[face[i][5]][1], vertice[face[i][5]][2]]), gl.STATIC_DRAW)
+        gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
+        gl.drawArrays(gl.TRIANGLES, 0, 6)
+    }
+
+    gl.uniform1i(glVar.location.mode, 2)
+    gl.uniform4f(glVar.location.color, 0.0, 0.0, 0.0, 1.0)
+
+    for (let i = 0; i < 12; i++) {
+        gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([vertice[edge[i][0]][0], vertice[edge[i][0]][1], vertice[edge[i][0]][2], vertice[edge[i][1]][0], vertice[edge[i][1]][1], vertice[edge[i][1]][2]]), gl.STATIC_DRAW)
+        gl.drawArrays(gl.LINES, 0, 2)
+    }
 }

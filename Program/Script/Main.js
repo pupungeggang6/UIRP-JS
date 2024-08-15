@@ -68,8 +68,10 @@ function glInit() {
         void main() {
             if (u_mode == 1) {
                 gl_FragColor = u_brightness * texture2D(u_texture, v_texcoord);
-            } else {
+            } else if (u_mode == 0) {
                 gl_FragColor = u_brightness * u_color;
+            } else {
+                gl_FragColor = u_color;
             }
         }
     `

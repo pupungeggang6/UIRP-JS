@@ -62,8 +62,13 @@ function mouseUpMain(x, y, button) {
             if (pointInsideRectArray(x, y, UI.barTop.buttonCube)) {
                 space3D.push({'Name' : 'Cuboid', 'Type' : 'Cuboid', 'Geometry' : [0, 0, 0, 1, 1, 1, 0, 0, 0]})
                 space3DTexture.push(null)
+            } else if (pointInsideRectArray(x, y, UI.barTop.buttonGlass)) {
+                space3D.push({'Name' : 'Glass', 'Type' : 'Glass', 'Geometry' : [0, 0, 0, 1, 1, 0.05, 0, 0, 0]})
+                space3DTexture.push(null)
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonCamera)) {
                 state = 'Camera'
+            } else if (pointInsideRectArray(x, y, UI.barTop.buttonLight)) {
+                state = 'Light'
             }
 
             for (let i = 0; i < space3D.length; i++) {
@@ -181,7 +186,30 @@ function mouseUpMain(x, y, button) {
                     }
                 }
             }
+        } else if (state === 'Light') {
+            if (pointInsideRectArray(x, y, UI.barRight.buttonDone)) {
+                state = ''
+            }
+            
+            for (let i = 0; i < 6; i++) {
+                if (pointInsideRectArray(x, y, UI.barRight.buttonPosition[i])) {
+                    if (i === 0) {
+                        light.direction[0] += 0.1
+                    } else if (i === 1) {
+                        light.direction[0] -= 0.1
+                    } else if (i === 2) {
+                        light.direction[1] += 0.1
+                    } else if (i === 3) {
+                        light.direction[1] -= 0.1
+                    } else if (i === 4) {
+                        light.direction[2] += 0.1
+                    } else if (i === 5) {
+                        light.direction[2] -= 0.1
+                    }
+            }
+            }
         }
+
     }
 }
 
