@@ -19,6 +19,16 @@ function drawBarTop() {
     context.drawImage(img.button.save, UI.barTop.buttonSave[0], UI.barTop.buttonSave[1])
     context.drawImage(img.button.load, UI.barTop.buttonLoad[0], UI.barTop.buttonLoad[1])
 
+    context.drawImage(img.button.cube, UI.barTop.buttonCube[0], UI.barTop.buttonCube[1])
+    context.drawImage(img.button.glass, UI.barTop.buttonGlass[0], UI.barTop.buttonGlass[1])
+    context.drawImage(img.button.camera, UI.barTop.buttonCamera[0], UI.barTop.buttonCamera[1])
+    context.drawImage(img.button.light, UI.barTop.buttonLight[0], UI.barTop.buttonLight[1])
+    context.drawImage(img.button.reflection, UI.barTop.buttonReflection[0], UI.barTop.buttonReflection[1])
+
+    if (reflectionMode === true) {
+        context.strokeRect(UI.barTop.buttonReflection[0], UI.barTop.buttonReflection[1], UI.barTop.buttonReflection[2], UI.barTop.buttonReflection[3])
+    }
+
     context.drawImage(img.button.convertImage, UI.barTop.buttonConvertImage[0], UI.barTop.buttonConvertImage[1])
     context.drawImage(img.button.download, UI.barTop.buttonDownload[0], UI.barTop.buttonDownload[1])
     context.drawImage(img.button.upload, UI.barTop.buttonUpload[0], UI.barTop.buttonUpload[1])
@@ -26,11 +36,6 @@ function drawBarTop() {
     context.drawImage(img.button.downloadMultiple, UI.barTop.buttonDownloadMultiple[0], UI.barTop.buttonDownloadMultiple[1])
     context.drawImage(img.button.train, UI.barTop.buttonTrain[0], UI.barTop.buttonTrain[1])
     context.drawImage(img.button.removeReflection, UI.barTop.buttonRemoveReflection[0], UI.barTop.buttonRemoveReflection[1])
-
-    context.drawImage(img.button.cube, UI.barTop.buttonCube[0], UI.barTop.buttonCube[1])
-    context.drawImage(img.button.glass, UI.barTop.buttonGlass[0], UI.barTop.buttonGlass[1])
-    context.drawImage(img.button.camera, UI.barTop.buttonCamera[0], UI.barTop.buttonCamera[1])
-    context.drawImage(img.button.light, UI.barTop.buttonLight[0], UI.barTop.buttonLight[1])
 }
 
 function drawBarLeft() {

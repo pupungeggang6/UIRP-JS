@@ -9,14 +9,15 @@ const UI = {
         buttonGlass : [200, 0, 40, 40],
         buttonCamera : [240, 0, 40, 40],
         buttonLight : [280, 0, 40, 40],
+        buttonReflection : [320, 0, 40, 40],
 
-        buttonConvertImage : [360, 0, 40, 40],
-        buttonDownload : [400, 0, 40, 40],
-        buttonUpload : [440, 0, 40, 40],
-        buttonGenerateImage : [480, 0, 40, 40],
-        buttonDownloadMultiple : [520, 0, 40, 40],
-        buttonTrain : [560, 0, 40, 40],
-        buttonRemoveReflection : [600, 0, 40, 40],
+        buttonConvertImage : [400, 0, 40, 40],
+        buttonDownload : [440, 0, 40, 40],
+        buttonUpload : [480, 0, 40, 40],
+        buttonGenerateImage : [520, 0, 40, 40],
+        buttonDownloadMultiple : [560, 0, 40, 40],
+        buttonTrain : [600, 0, 40, 40],
+        buttonRemoveReflection : [640, 0, 40, 40],
     },
 
     barBottom : {

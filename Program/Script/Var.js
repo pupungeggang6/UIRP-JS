@@ -78,4 +78,6 @@ let editor = {
 
 let space3DGenerated = []
 let imageGenerated = []
-let tempTexture
+let reflectionMode = false
+let reflectionCanvas = []
+let reflectionContext = []

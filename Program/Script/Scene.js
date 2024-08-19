@@ -69,6 +69,12 @@ function mouseUpMain(x, y, button) {
                 state = 'Camera'
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonLight)) {
                 state = 'Light'
+            } else if (pointInsideRectArray(x, y, UI.barTop.buttonReflection)) {
+                if (reflectionMode === false) {
+                    reflectionMode = true
+                } else {
+                    reflectionMode = false
+                }
             }
 
             for (let i = 0; i < space3D.length; i++) {
