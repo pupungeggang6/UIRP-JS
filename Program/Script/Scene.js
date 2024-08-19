@@ -26,7 +26,8 @@ function displayMain() {
     drawImageFull()
     drawImageBackground()
     drawImageReflection()
-    draw3DSpace()
+    draw3DSpace(space3D, space3DTexture, camera, light.direction)
+    draw3DSpaceGlass(space3D, space3DTexture, camera, light.direction)
 }
 
 function mouseUpMain(x, y, button) {
@@ -41,7 +42,8 @@ function mouseUpMain(x, y, button) {
             }
 
             if (pointInsideRectArray(x, y, UI.barTop.buttonConvertImage)) {
-                draw3DSpace()
+                draw3DSpace(space3D, space3DTexture, camera, light.direction)
+                draw3DSpaceGlass(space3D, space3DTexture, camera, light.direction)
                 contextImageFull.clearRect(0, 0, 320, 320)
                 contextImageFull.drawImage(canvasG, 0, 0)
             }
@@ -63,7 +65,7 @@ function mouseUpMain(x, y, button) {
                 space3D.push({'Name' : 'Cuboid', 'Type' : 'Cuboid', 'Geometry' : [0, 0, 0, 1, 1, 1, 0, 0, 0]})
                 space3DTexture.push(null)
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonGlass)) {
-                space3D.push({'Name' : 'Glass', 'Type' : 'Glass', 'Geometry' : [0, 0, 0, 1, 1, 0.05, 0, 0, 0]})
+                space3D.push({'Name' : 'Glass', 'Type' : 'Glass', 'Geometry' : [0, 0, 0, 1, 1, 0, 0, 180, 0]})
                 space3DTexture.push(null)
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonCamera)) {
                 state = 'Camera'

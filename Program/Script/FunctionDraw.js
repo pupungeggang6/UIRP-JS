@@ -148,12 +148,15 @@ function drawImageReflection() {
     context.strokeRect(UI.imageReflection[0], UI.imageReflection[1], UI.imageReflection[2], UI.imageReflection[3])
 }
 
-function draw3DSpace() {
+function draw3DSpace(space3D, texture, camera, light) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.enable(gl.DEPTH_TEST)
+    gl.enable(gl.BLEND)
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
+
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
     gl.lineWidth(2)
-    gl.enable(gl.DEPTH_TEST)
     gl.useProgram(glVar.program)
     
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
@@ -162,53 +165,29 @@ function draw3DSpace() {
     gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)
 
     cameraMatrix = matrixIdentity()
-    cameraMatrix = matrixMultiply(matrixRotate(2, camera.rotation[2]), cameraMatrix)
-    cameraMatrix = matrixMultiply(matrixRotate(1, camera.rotation[1]), cameraMatrix)
-    cameraMatrix = matrixMultiply(matrixRotate(0, camera.rotation[0]), cameraMatrix)
     cameraMatrix = matrixMultiply(matrixTranslate(-camera.position[0], -camera.position[1], -camera.position[2]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(2, -camera.rotation[2]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(1, -camera.rotation[1]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(0, -camera.rotation[0]), cameraMatrix)
 
-    gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -0.5, 0, 0, 0, 0, 1])
+    gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, -1.1, 0, 0, 0, 1])
 
     for (let i = 0; i < space3D.length; i++) {
         if (space3D[i]['Type'] === 'Cuboid') {
-            drawCuboid(space3D[i]['Geometry'], space3DTexture[i])
-        } else if (space3D[i]['Type'] === 'Glass') {
-            drawGlass(space3D[i]['Geometry'])
+            drawCuboid(space3D[i]['Geometry'], texture[i], light)
         }
     }
 }
 
-function draw3DSpaceGenerated(index) {
-    gl.clearColor(0.0, 0.0, 0.0, 1.0)
-    gl.enable(gl.DEPTH_TEST)
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-    gl.lineWidth(4)
-    gl.enable(gl.DEPTH_TEST)
-    gl.useProgram(glVar.program)
-    
-    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
-    gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)
-    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
-    gl.vertexAttribPointer(glVar.location.texture, 2, gl.FLOAT, false, 0, 0)
-
-    let tempSpace = space3DGenerated[index]
-
-    cameraMatrix = matrixIdentity()
-    cameraMatrix = matrixMultiply(matrixRotate(2, tempSpace['CameraRotation'][2]), cameraMatrix)
-    cameraMatrix = matrixMultiply(matrixRotate(1, tempSpace['CameraRotation'][1]), cameraMatrix)
-    cameraMatrix = matrixMultiply(matrixRotate(0, tempSpace['CameraRotation'][0]), cameraMatrix)
-    cameraMatrix = matrixMultiply(matrixTranslate(-tempSpace['CameraPosition'][0], -tempSpace['CameraPosition'][1], -tempSpace['CameraPosition'][2]), cameraMatrix)
-
-    gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -0.5, 0, 0, 0, 0, 1])
-
-    for (let i = 0; i < tempSpace['Thing'].length; i++) {
-        if (tempSpace['Thing'][i]['Type'] === 'Cuboid') {
-            drawCuboid(tempSpace['Thing'][i]['Geometry'], space3DTexture[i])
+function draw3DSpaceGlass(space3D, texture, camera, light) {
+    for (let i = 0; i < space3D.length; i++) {
+        if (space3D[i]['Type'] === 'Glass') {
+            drawGlass(space3D, texture, camera, light, space3D[i]['Geometry'])
         }
     }
 }
 
-function drawCuboid(geometry, texture) {
+function drawCuboid(geometry, texture, light) {
     vertice = [
         [-geometry[3] / 2, -geometry[4] / 2, -geometry[5] / 2],
         [-geometry[3] / 2, -geometry[4] / 2, geometry[5] / 2],
@@ -241,7 +220,7 @@ function drawCuboid(geometry, texture) {
 
     for (let i = 0; i < 6; i++) {
         let normalVector = vectorCross(vectorSub(vertice[face[i][2]], vertice[face[i][1]]), vectorSub(vertice[face[i][0]], vertice[face[i][1]]))
-        let brightness = Math.max(vectorAngleCos(normalVector, [-light.direction[0], -light.direction[1], -light.direction[2]]), 0.1)
+        let brightness = Math.max(vectorAngleCos(normalVector, [-light[0], -light[1], -light[2]]), 0.1)
 
         gl.uniform4f(glVar.location.brightness, brightness, brightness, brightness, 1.0)
 
@@ -262,19 +241,28 @@ function drawCuboid(geometry, texture) {
     }
 }
 
-function drawGlass(geometry) {
+function drawGlass(space3D, texture, camera, light, geometry) {   
+    let glassCamera = {
+        position : [geometry[0], geometry[1], geometry[2]],
+        rotation : [geometry[6], geometry[7], geometry[8]]
+    }
+
+    draw3DSpace(space3D, texture, glassCamera, light)
+    
     vertice = [
-        [-geometry[3] / 2, -geometry[4] / 2, -geometry[5] / 2],
-        [-geometry[3] / 2, -geometry[4] / 2, geometry[5] / 2],
-        [geometry[3] / 2, -geometry[4] / 2, geometry[5] / 2],
-        [geometry[3] / 2, -geometry[4] / 2, -geometry[5] / 2],
-        [-geometry[3] / 2, geometry[4] / 2, -geometry[5] / 2],
-        [-geometry[3] / 2, geometry[4] / 2, geometry[5] / 2],
-        [geometry[3] / 2, geometry[4] / 2, geometry[5] / 2],
-        [geometry[3] / 2, geometry[4] / 2, -geometry[5] / 2],
+        [-geometry[3] / 2, -geometry[4] / 2, 0],
+        [geometry[3] / 2, -geometry[4] / 2, 0],
+        [geometry[3] / 2, geometry[4] / 2, 0],
+        [-geometry[3] / 2, geometry[4] / 2, 0],
     ]
 
-    for (let i = 0; i < 8; i++) {
+    cameraMatrix = matrixIdentity()
+    cameraMatrix = matrixMultiply(matrixTranslate(-camera.position[0], -camera.position[1], -camera.position[2]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(2, -camera.rotation[2]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(1, -camera.rotation[1]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(0, -camera.rotation[0]), cameraMatrix)
+
+    for (let i = 0; i < 4; i++) {
         vertice[i] = matrixVectorTransform(matrixRotate(2, geometry[8]), vertice[i])
         vertice[i] = matrixVectorTransform(matrixRotate(1, geometry[7]), vertice[i])
         vertice[i] = matrixVectorTransform(matrixRotate(0, geometry[6]), vertice[i])
@@ -282,26 +270,56 @@ function drawGlass(geometry) {
         vertice[i] = matrixVectorTransform(cameraMatrix, vertice[i])
     }
 
-    face = [[2, 1, 3, 3, 1, 0], [0, 1, 4, 4, 1, 5], [3, 0, 7, 7, 0, 4], [5, 6, 4, 4, 6, 7], [2, 3, 6, 6, 3, 7], [1, 2, 5, 5, 2, 6]]
-    edge = [[0, 1], [1, 2], [2, 3], [3, 0], [0, 4], [1, 5], [2, 6], [3, 7], [4, 5], [5, 6], [6, 7], [7, 4]]
+    if (reflectionMode === false) {
+        gl.uniform1i(glVar.location.mode, 2)
+        gl.uniform4f(glVar.location.color, 0.0, 0.0, 0.0, 0.4)
+    } else {
+        gl.uniform1i(glVar.location.mode, 1)
+        gl.uniform4f(glVar.location.brightness, 1, 1, 1, 0.4)
+        let tempCanvas = document.createElement('canvas')
+        let tempContext = tempCanvas.getContext('2d')
 
-    gl.uniform1i(glVar.location.mode, 2)
-    gl.uniform4f(glVar.location.color, 0.0, 1.0, 1.0, 0.1)
+        tempCanvas.width = 320
+        tempCanvas.height = 320
+        tempContext.translate(0, canvasReflection.height)
+        tempContext.scale(1, -1)
+        tempContext.clearRect(0, 0, canvasReflection.width, canvasReflection.height)
+        tempContext.drawImage(canvasG, 0, 0)
+        tempContext.setTransform(1, 0, 0, 1, 0, 0)
 
-    for (let i = 0; i < 6; i++) {
-        gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([vertice[face[i][0]][0], vertice[face[i][0]][1], vertice[face[i][0]][2], vertice[face[i][1]][0], vertice[face[i][1]][1], vertice[face[i][1]][2], vertice[face[i][2]][0], vertice[face[i][2]][1], vertice[face[i][2]][2], vertice[face[i][3]][0], vertice[face[i][3]][1], vertice[face[i][3]][2], vertice[face[i][4]][0], vertice[face[i][4]][1], vertice[face[i][4]][2], vertice[face[i][5]][0], vertice[face[i][5]][1], vertice[face[i][5]][2]]), gl.STATIC_DRAW)
-        gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
-        gl.drawArrays(gl.TRIANGLES, 0, 6)
+        canvasReflection.push(tempCanvas)
+        contextReflection.push(tempContext)
     }
 
-    gl.uniform1i(glVar.location.mode, 2)
-    gl.uniform4f(glVar.location.color, 0.0, 0.0, 0.0, 1.0)
+    let face = [0, 1, 3, 3, 1, 2]
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([vertice[face[0]][0], vertice[face[0]][1], vertice[face[0]][2], vertice[face[1]][0], vertice[face[1]][1], vertice[face[1]][2], vertice[face[2]][0], vertice[face[2]][1], vertice[face[2]][2], vertice[face[3]][0], vertice[face[3]][1], vertice[face[3]][2], vertice[face[4]][0], vertice[face[4]][1], vertice[face[4]][2], vertice[face[5]][0], vertice[face[5]][1], vertice[face[5]][2]]), gl.STATIC_DRAW)
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
+    gl.drawArrays(gl.TRIANGLES, 0, 6)
+}
 
-    for (let i = 0; i < 12; i++) {
-        gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([vertice[edge[i][0]][0], vertice[edge[i][0]][1], vertice[edge[i][0]][2], vertice[edge[i][1]][0], vertice[edge[i][1]][1], vertice[edge[i][1]][2]]), gl.STATIC_DRAW)
-        gl.drawArrays(gl.LINES, 0, 2)
+function drawTotal(space3D, texture, camera, light, glassTexture) {
+    draw3DSpace(space3D, texture, camera, light)
+    gl.disable(gl.DEPTH_TEST)
+    let j = 0
+    for (let i = 0; i < space3D.length; i++) {
+        if (space3D[i]['Type'] === 'Glass') {
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvasReflection[j])
+            let geometry = space3D[i]['Geometry']
+            let vertice = [
+                [-geometry[3] / 2, -geometry[4] / 2, 0],
+                [geometry[3] / 2, -geometry[4] / 2, 0],
+                [geometry[3] / 2, geometry[4] / 2, 0],
+                [-geometry[3] / 2, geometry[4] / 2, 0],
+            ]
+            let face = [0, 1, 3, 3, 1, 2]
+            gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([vertice[face[0]][0], vertice[face[0]][1], vertice[face[0]][2], vertice[face[1]][0], vertice[face[1]][1], vertice[face[1]][2], vertice[face[2]][0], vertice[face[2]][1], vertice[face[2]][2], vertice[face[3]][0], vertice[face[3]][1], vertice[face[3]][2], vertice[face[4]][0], vertice[face[4]][1], vertice[face[4]][2], vertice[face[5]][0], vertice[face[5]][1], vertice[face[5]][2]]), gl.STATIC_DRAW)
+            gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
+            gl.drawArrays(gl.TRIANGLES, 0, 6)
+            j += 1
+        }
     }
 }

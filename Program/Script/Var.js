@@ -62,7 +62,7 @@ let space3DTexture = [
 ]
 
 let camera = {
-    position : [0, 0, 0],
+    position : [0, 0, 1],
     rotation : [0, 0, 0]
 }
 
@@ -70,7 +70,12 @@ let light = {
     direction : [0, 0, -1]
 }
 
-let cameraMatrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 1]
+let cameraMatrix = [
+    1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1
+]
 
 let editor = {
     textName : null,
@@ -79,5 +84,5 @@ let editor = {
 let space3DGenerated = []
 let imageGenerated = []
 let reflectionMode = false
-let reflectionCanvas = []
-let reflectionContext = []
+let canvasReflection = []
+let contextReflection = []
