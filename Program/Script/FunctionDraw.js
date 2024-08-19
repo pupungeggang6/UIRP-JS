@@ -179,10 +179,55 @@ function draw3DSpace(space3D, texture, camera, light) {
     }
 }
 
-function draw3DSpaceGlass(space3D, texture, camera, light) {
+function drawGlassTexture(space3D, texture, camera, light) {
     for (let i = 0; i < space3D.length; i++) {
         if (space3D[i]['Type'] === 'Glass') {
-            drawGlass(space3D, texture, camera, light, space3D[i]['Geometry'])
+            let glassCamera = {
+                position : [space3D[i]['Geometry'][0], space3D[i]['Geometry'][1], space3D[i]['Geometry'][2]],
+                rotation : [space3D[i]['Geometry'][6], space3D[i]['Geometry'][7], space3D[i]['Geometry'][8]]
+            }
+            draw3DSpace(space3D, texture, camera, light)
+            let tempCanvas = document.createElement('canvas')
+            let tempContext = tempCanvas.getContext('2d')
+            tempCanvas.width = space3D[i]['Geometry'][3] * 320
+            tempCanvas.height = space3D[i]['Geometry'][4] * 320
+            tempContext.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
+            tempContext.drawImage(canvasG, 0, 0)
+            space3DTexture[i] = new Image()
+            space3DTexture[i].src = tempCanvas.toDataURL()
+        }
+    }
+}
+
+function draw3DSpaceFull(space3D, texture, camera, light) {
+    gl.clearColor(0.0, 0.0, 0.0, 1.0)
+    gl.enable(gl.DEPTH_TEST)
+    gl.enable(gl.BLEND)
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
+
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+    gl.lineWidth(2)
+    gl.useProgram(glVar.program)
+    
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
+    gl.vertexAttribPointer(glVar.location.texture, 2, gl.FLOAT, false, 0, 0)
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
+    gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)
+
+    cameraMatrix = matrixIdentity()
+    cameraMatrix = matrixMultiply(matrixTranslate(-camera.position[0], -camera.position[1], -camera.position[2]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(2, -camera.rotation[2]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(1, -camera.rotation[1]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(0, -camera.rotation[0]), cameraMatrix)
+
+    gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, -1.1, 0, 0, 0, 1])
+
+    for (let i = 0; i < space3D.length; i++) {
+        if (space3D[i]['Type'] === 'Cuboid') {
+            drawCuboid(space3D[i]['Geometry'], texture[i], light)
+        } else if (space3D[i]['Type'] === 'Glass') {
+            drawGlass(space3D[i]['Geometry'], texture[i], light)
         }
     }
 }
@@ -241,14 +286,7 @@ function drawCuboid(geometry, texture, light) {
     }
 }
 
-function drawGlass(space3D, texture, camera, light, geometry) {   
-    let glassCamera = {
-        position : [geometry[0], geometry[1], geometry[2]],
-        rotation : [geometry[6], geometry[7], geometry[8]]
-    }
-
-    draw3DSpace(space3D, texture, glassCamera, light)
-    
+function drawGlass(geometry, texture, light) {       
     vertice = [
         [-geometry[3] / 2, -geometry[4] / 2, 0],
         [geometry[3] / 2, -geometry[4] / 2, 0],
@@ -273,23 +311,15 @@ function drawGlass(space3D, texture, camera, light, geometry) {
     if (reflectionMode === false) {
         gl.uniform1i(glVar.location.mode, 2)
         gl.uniform4f(glVar.location.color, 0.0, 0.0, 0.0, 0.4)
-    } else {
-        gl.uniform1i(glVar.location.mode, 1)
-        gl.uniform4f(glVar.location.brightness, 1, 1, 1, 0.4)
-        
-        let tempCanvas = document.createElement('canvas')
-        let tempContext = tempCanvas.getContext('2d')
-
-        tempCanvas.width = 320
-        tempCanvas.height = 320
-        tempContext.translate(0, canvasReflection.height)
-        tempContext.scale(1, -1)
-        tempContext.clearRect(0, 0, canvasReflection.width, canvasReflection.height)
-        tempContext.drawImage(canvasG, 0, 0)
-        tempContext.setTransform(1, 0, 0, 1, 0, 0)
-
-        canvasReflection.push(tempCanvas)
-        contextReflection.push(tempContext)
+    } else if (reflectionMode === true) {
+        if (texture != null) {
+            gl.uniform1i(glVar.location.mode, 1)
+            gl.uniform4f(glVar.location.brightness, 1, 1, 1, 0.4)
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture)
+        } else {
+            gl.uniform1i(glVar.location.mode, 2)
+            gl.uniform4f(glVar.location.color, 0.0, 0.0, 0.0, 0.4)
+        }
     }
 
     let face = [0, 1, 3, 3, 1, 2]
@@ -298,29 +328,4 @@ function drawGlass(space3D, texture, camera, light, geometry) {
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
     gl.drawArrays(gl.TRIANGLES, 0, 6)
-}
-
-function drawTotal(space3D, texture, camera, light, glassTexture) {
-    draw3DSpace(space3D, texture, camera, light)
-    gl.disable(gl.DEPTH_TEST)
-    let j = 0
-    for (let i = 0; i < space3D.length; i++) {
-        if (space3D[i]['Type'] === 'Glass') {
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvasReflection[j])
-            let geometry = space3D[i]['Geometry']
-            let vertice = [
-                [-geometry[3] / 2, -geometry[4] / 2, 0],
-                [geometry[3] / 2, -geometry[4] / 2, 0],
-                [geometry[3] / 2, geometry[4] / 2, 0],
-                [-geometry[3] / 2, geometry[4] / 2, 0],
-            ]
-            let face = [0, 1, 3, 3, 1, 2]
-            gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([vertice[face[0]][0], vertice[face[0]][1], vertice[face[0]][2], vertice[face[1]][0], vertice[face[1]][1], vertice[face[1]][2], vertice[face[2]][0], vertice[face[2]][1], vertice[face[2]][2], vertice[face[3]][0], vertice[face[3]][1], vertice[face[3]][2], vertice[face[4]][0], vertice[face[4]][1], vertice[face[4]][2], vertice[face[5]][0], vertice[face[5]][1], vertice[face[5]][2]]), gl.STATIC_DRAW)
-            gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
-            gl.drawArrays(gl.TRIANGLES, 0, 6)
-            j += 1
-        }
-    }
 }

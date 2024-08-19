@@ -84,5 +84,3 @@ let editor = {
 let space3DGenerated = []
 let imageGenerated = []
 let reflectionMode = false
-let canvasReflection = []
-let contextReflection = []

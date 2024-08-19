@@ -27,7 +27,7 @@ function displayMain() {
     drawImageBackground()
     drawImageReflection()
     draw3DSpace(space3D, space3DTexture, camera, light.direction)
-    draw3DSpaceGlass(space3D, space3DTexture, camera, light.direction)
+    draw3DSpaceFull(space3D, space3DTexture, camera, light.direction)
 }
 
 function mouseUpMain(x, y, button) {
@@ -65,7 +65,7 @@ function mouseUpMain(x, y, button) {
                 space3D.push({'Name' : 'Cuboid', 'Type' : 'Cuboid', 'Geometry' : [0, 0, 0, 1, 1, 1, 0, 0, 0]})
                 space3DTexture.push(null)
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonGlass)) {
-                space3D.push({'Name' : 'Glass', 'Type' : 'Glass', 'Geometry' : [0, 0, 0, 1, 1, 0, 0, 180, 0]})
+                space3D.push({'Name' : 'Glass', 'Type' : 'Glass', 'Geometry' : [0, 0, 0, 1, 1, 0, 0, 0, 0]})
                 space3DTexture.push(null)
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonCamera)) {
                 state = 'Camera'
@@ -73,6 +73,7 @@ function mouseUpMain(x, y, button) {
                 state = 'Light'
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonReflection)) {
                 if (reflectionMode === false) {
+                    drawGlassTexture(space3D, space3DTexture, camera, light.direction)
                     reflectionMode = true
                 } else {
                     reflectionMode = false
@@ -95,6 +96,7 @@ function mouseUpMain(x, y, button) {
 
             if (pointInsideRectArray(x, y, UI.barRight.buttonDelete)) {
                 space3D.splice(selected.space3DThing, 1)
+                space3DTexture.splice(selected.space3DThing, 1)
                 selected.space3DThing = -1
                 state = ''
                 editor.textName.value = ''
