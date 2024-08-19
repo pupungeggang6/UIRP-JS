@@ -276,6 +276,7 @@ function drawGlass(space3D, texture, camera, light, geometry) {
     } else {
         gl.uniform1i(glVar.location.mode, 1)
         gl.uniform4f(glVar.location.brightness, 1, 1, 1, 0.4)
+        
         let tempCanvas = document.createElement('canvas')
         let tempContext = tempCanvas.getContext('2d')
 
