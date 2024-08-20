@@ -26,7 +26,11 @@ function downloadImage() {
 function downloadImageGenerated() {
     for (let i = 0; i < canvasGenerate.length; i++) {
         var link = document.createElement('a')
-        link.download = `generated${i}.png`
+        if (reflectionMode === true) {
+            link.download = `generatedReflection${i}.png`
+        } else {
+            link.download = `generatedNoReflection${i}.png`
+        }
         link.href = canvasGenerate[i].toDataURL()
         document.body.appendChild(link)
         link.click()

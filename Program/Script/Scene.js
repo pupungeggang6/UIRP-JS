@@ -1,7 +1,11 @@
 function loopMain() {
     if (state === 'SelectedSpace3D') {
         editor.textName.style.visibility ='visible'
-        fileDOM.style.visibility = 'visible'
+        if (space3D[selected.space3DThing]['Type'] != 'Glass') {
+            fileDOM.style.visibility = 'visible'
+        } else {
+            fileDOM.style.visibility = 'hidden'
+        }
     } else {
         editor.textName.style.visibility ='hidden'
         fileDOM.style.visibility = 'hidden'
