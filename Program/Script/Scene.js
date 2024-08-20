@@ -28,7 +28,8 @@ function mouseUpMain(x, y, button) {
             if (pointInsideRectArray(x, y, UI.barTop.buttonFileNew)) {
                 camera.position = [0, 0, 0]
                 camera.rotation = [0, 0, 0]
-                space3D = {}
+                light.direction = [0, 0, 1]
+                space3D = []
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonSave)) {
                 saveFile()
             }
