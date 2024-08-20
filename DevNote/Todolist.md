@@ -6,9 +6,9 @@
 
 [v] Initializing WebGL
 [v] Drawing simple objects
-[ ] Applying texture
-[ ] Applying light
-[ ] Implementing reflection, shadow
+[v] Applying texture
+[v] Applying light
+[v] Implementing reflection, shadow
 
 [v] Image save
 [v] Image generation
