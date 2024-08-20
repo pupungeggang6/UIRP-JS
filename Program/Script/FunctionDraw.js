@@ -189,9 +189,11 @@ function drawGlassTexture(space3D, texture, camera, light) {
             draw3DSpace(space3D, texture, glassCamera, light)
             let tempCanvas = document.createElement('canvas')
             let tempContext = tempCanvas.getContext('2d')
-            tempCanvas.width = space3D[i]['Geometry'][3] * 320
-            tempCanvas.height = space3D[i]['Geometry'][4] * 320
+            tempCanvas.width = 320
+            tempCanvas.height = 320
             tempContext.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
+            tempContext.translate(0, tempCanvas.height)
+            tempContext.scale(1, -1)
             tempContext.drawImage(canvasG, 0, 0)
             space3DTexture[i] = new Image()
             space3DTexture[i].src = tempCanvas.toDataURL()
