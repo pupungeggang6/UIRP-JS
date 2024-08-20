@@ -24,7 +24,9 @@ function generateImages() {
     imageGenerated = []
     canvasGenerate = []
     contextGenerate = []
+    imageName = []
     
+    reflectionMode = false
     for (let i = 0; i < space3DGenerated.length; i++) {
         let tempCanvas = document.createElement('canvas')
         let tempContext = tempCanvas.getContext('2d')
@@ -36,6 +38,22 @@ function generateImages() {
         tempContext.drawImage(canvasG, 0, 0, 224, 224)
         canvasGenerate.push(tempCanvas)
         contextGenerate.push(tempContext)
+        imageName.push(`GeneratedNoReflection${i}.png`)
+    }
+
+    reflectionMode = true
+    for (let i = 0; i < space3DGenerated.length; i++) {
+        let tempCanvas = document.createElement('canvas')
+        let tempContext = tempCanvas.getContext('2d')
+        tempCanvas.width = 224
+        tempCanvas.height = 224
+        drawGlassTexture(space3DGenerated[i]['Thing'], space3DTexture, space3DGenerated[i]['Camera'], light.direction)
+        draw3DSpaceFull(space3DGenerated[i]['Thing'], space3DTexture, space3DGenerated[i]['Camera'], light.direction)
+        tempContext.clearRect(0, 0, 224, 224)
+        tempContext.drawImage(canvasG, 0, 0, 224, 224)
+        canvasGenerate.push(tempCanvas)
+        contextGenerate.push(tempContext)
+        imageName.push(`GeneratedReflection${i}.png`)
     }
 }
 
@@ -43,4 +61,22 @@ function changeTexture(input) {
     let file = input.files[0]
     space3DTexture[selected.space3DThing] = new Image()
     space3DTexture[selected.space3DThing].src = URL.createObjectURL(file)
+}
+
+function uploadFile(input) {
+    let file = input.files[0]
+    let reader = new FileReader()
+    reader.readAsText(file)
+
+    reader.onload = function () {
+        let tempSpace = JSON.parse(reader.result)
+        space3D = tempSpace.space
+        camera = tempSpace.camera
+        light = tempSpace.light
+
+        space3DTexture = []
+        for (let i = 0; i < space3D.length; i++) {
+            space3DTexture.push(null)
+        }
+    }
 }

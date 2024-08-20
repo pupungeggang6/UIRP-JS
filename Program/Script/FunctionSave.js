@@ -8,7 +8,7 @@ function saveFile() {
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `test.3drefl`
+    a.download = `test`
     a.click()
     a.remove()
     window.URL.revokeObjectURL(url)
@@ -26,11 +26,7 @@ function downloadImage() {
 function downloadImageGenerated() {
     for (let i = 0; i < canvasGenerate.length; i++) {
         var link = document.createElement('a')
-        if (reflectionMode === true) {
-            link.download = `generatedReflection${i}.png`
-        } else {
-            link.download = `generatedNoReflection${i}.png`
-        }
+        link.download = imageName[i]
         link.href = canvasGenerate[i].toDataURL()
         document.body.appendChild(link)
         link.click()

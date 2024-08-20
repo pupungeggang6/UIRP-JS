@@ -20,6 +20,8 @@ function main() {
         context = canvas.getContext('2d')
         gl = canvasG.getContext('webgl2')
         fileDOM = document.getElementById('ImageUpload')
+        textDOM = document.getElementById('FileUpload')
+        textDOM.style.visibility = 'hidden'
 
         canvasImageFull = document.createElement('canvas')
         contextImageFull = canvasImageFull.getContext('2d')

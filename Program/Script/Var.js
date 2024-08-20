@@ -12,6 +12,7 @@ let canvasGenerate = []
 let contextGenerate = []
 
 let fileDOM
+let textDOM
 
 let glVar = {
     program : null,
@@ -83,4 +84,5 @@ let editor = {
 
 let space3DGenerated = []
 let imageGenerated = []
+let imageName = []
 let reflectionMode = false

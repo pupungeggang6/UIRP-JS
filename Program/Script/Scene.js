@@ -36,6 +36,8 @@ function mouseUpMain(x, y, button) {
                 space3D = []
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonSave)) {
                 saveFile()
+            } else if (pointInsideRectArray(x, y, UI.barTop.buttonLoad)) {
+                textDOM.click()
             }
 
             if (pointInsideRectArray(x, y, UI.barTop.buttonConvertImage)) {
@@ -50,7 +52,7 @@ function mouseUpMain(x, y, button) {
             }
 
             if (pointInsideRectArray(x, y, UI.barTop.buttonGenerateImage)) {
-                generateSpace(10)
+                generateSpace(5)
                 generateImages()
             }
 
