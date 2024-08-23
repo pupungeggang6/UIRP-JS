@@ -10,4 +10,4 @@ This is a web app which synthesizes reflected, non-reflected image pair and trai
 
 There are 8 areas.
 
-![Layout](./Image/Layout.png)
+<img src="Image/Layout.jpg" width="960px" height="540px" title="Github_Logo"/>
