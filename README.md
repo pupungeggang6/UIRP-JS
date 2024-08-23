@@ -70,6 +70,6 @@ Pressing multiple image convert button generated multiple image pairs form 3D sp
 
 ### 5. Training & Testing Image.
 
-<img src="Image/ButtonTest.jpg", title="Button Test">
+<img src="Image/ButtonTest.jpg", title="Button Test"/>
 
 The right side of the upper bar has buttons. There are two buttons, 
