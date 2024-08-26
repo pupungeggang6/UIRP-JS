@@ -27,6 +27,7 @@ function main() {
         contextImageFull = canvasImageFull.getContext('2d')
         canvasImageFull.width = 320
         canvasImageFull.height = 320
+        contextImageFull.fillStyle = 'White'
 
         test = document.getElementById('Test')
         testContext = test.getContext('2d')

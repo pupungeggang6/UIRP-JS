@@ -47,9 +47,11 @@ function generateImages() {
         let tempContext = tempCanvas.getContext('2d')
         tempCanvas.width = 224
         tempCanvas.height = 224
+        tempContext.fillStyle = 'White'
         drawGlassTexture(space3DGenerated[i]['Thing'], space3DTexture, space3DGenerated[i]['Camera'], light.direction)
         draw3DSpaceFull(space3DGenerated[i]['Thing'], space3DTexture, space3DGenerated[i]['Camera'], light.direction)
         tempContext.clearRect(0, 0, 224, 224)
+        tempContext.fillRect(0, 0, 224, 224)
         tempContext.drawImage(canvasG, 0, 0, 224, 224)
         canvasGenerate.push(tempCanvas)
         contextGenerate.push(tempContext)

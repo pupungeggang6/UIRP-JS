@@ -44,6 +44,7 @@ function mouseUpMain(x, y, button) {
                 drawGlassTexture(space3D, space3DTexture, camera, light.direction)
                 draw3DSpaceFull(space3D, space3DTexture, camera, light.direction)
                 contextImageFull.clearRect(0, 0, 320, 320)
+                contextImageFull.fillRect(0, 0, 320, 320)
                 contextImageFull.drawImage(canvasG, 0, 0)
             }
 
@@ -215,7 +216,7 @@ function mouseUpMain(x, y, button) {
                     } else if (i === 5) {
                         light.direction[2] -= 0.1
                     }
-            }
+                }
             }
         }
 
