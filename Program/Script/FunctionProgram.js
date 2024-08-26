@@ -82,3 +82,8 @@ function uploadFile(input) {
         }
     }
 }
+
+function uploadTestImage(input) {
+    let file = input.files[0]
+    testImage.src = URL.createObjectURL(file)
+}

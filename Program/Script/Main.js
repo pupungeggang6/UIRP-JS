@@ -22,6 +22,8 @@ function main() {
         fileDOM = document.getElementById('ImageUpload')
         textDOM = document.getElementById('FileUpload')
         textDOM.style.visibility = 'hidden'
+        imageTestDOM = document.getElementById('ImageTestUpload')
+        imageTestDOM.style.visibility = 'hidden'
 
         canvasImageFull = document.createElement('canvas')
         contextImageFull = canvasImageFull.getContext('2d')
@@ -36,6 +38,7 @@ function main() {
         window.addEventListener('keydown', keyDown, false)
         window.addEventListener('keyup', keyUp, false)
         editor.textName.addEventListener('change', onTextNameChange, false)
+        testImage.addEventListener('load', drawTestImage, false)
 
         glInit()
 

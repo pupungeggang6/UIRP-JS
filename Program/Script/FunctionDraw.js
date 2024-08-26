@@ -331,3 +331,8 @@ function drawGlass(geometry, texture, light) {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
     gl.drawArrays(gl.TRIANGLES, 0, 6)
 }
+
+function drawTestImage() {
+    contextImageFull.clearRect(0, 0, 320, 320)
+    contextImageFull.drawImage(testImage, 0, 0, 320, 320)
+}

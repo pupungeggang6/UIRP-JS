@@ -13,6 +13,7 @@ let contextGenerate = []
 
 let fileDOM
 let textDOM
+let imageTestDOM
 
 let glVar = {
     program : null,
@@ -86,3 +87,5 @@ let space3DGenerated = []
 let imageGenerated = []
 let imageName = []
 let reflectionMode = false
+
+let testImage = new Image()

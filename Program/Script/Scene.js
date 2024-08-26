@@ -52,6 +52,10 @@ function mouseUpMain(x, y, button) {
                 downloadImage()
             }
 
+            if (pointInsideRectArray(x, y, UI.barTop.buttonUpload)) {
+                imageTestDOM.click()
+            }
+
             if (pointInsideRectArray(x, y, UI.barTop.buttonGenerateImage)) {
                 generateSpace(5)
                 generateImages()
