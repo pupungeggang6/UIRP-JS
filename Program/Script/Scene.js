@@ -29,6 +29,7 @@ function displayMain() {
 function mouseUpMain(x, y, button) {
     if (button === 0) {
         if (state === '') {
+            // File
             if (pointInsideRectArray(x, y, UI.barTop.buttonFileNew)) {
                 camera.position = [0, 0, 0]
                 camera.rotation = [0, 0, 0]
@@ -40,32 +41,10 @@ function mouseUpMain(x, y, button) {
                 textDOM.click()
             }
 
-            if (pointInsideRectArray(x, y, UI.barTop.buttonConvertImage)) {
-                drawGlassTexture(space3D, space3DTexture, camera, light.direction)
-                draw3DSpaceFull(space3D, space3DTexture, camera, light.direction)
-                contextImageFull.clearRect(0, 0, 320, 320)
-                contextImageFull.fillRect(0, 0, 320, 320)
-                contextImageFull.drawImage(canvasG, 0, 0)
-            }
-
-            if (pointInsideRectArray(x, y, UI.barTop.buttonDownload)) {
-                downloadImage()
-            }
-
-            if (pointInsideRectArray(x, y, UI.barTop.buttonUpload)) {
-                imageTestDOM.click()
-            }
-
-            if (pointInsideRectArray(x, y, UI.barTop.buttonGenerateImage)) {
-                generateSpace(5)
-                generateImages()
-            }
-
-            if (pointInsideRectArray(x, y, UI.barTop.buttonDownloadMultiple)) {
-                downloadImageGenerated()
-            }
-
-            if (pointInsideRectArray(x, y, UI.barTop.buttonCube)) {
+            // Space
+            if (pointInsideRectArray(x, y, UI.barTop.buttonBackground)) {
+                imageBackgroundDOM.click()
+            } else if (pointInsideRectArray(x, y, UI.barTop.buttonCube)) {
                 space3D.push({'Name' : 'Cuboid', 'Type' : 'Cuboid', 'Geometry' : [0, 0, 0, 1, 1, 1, 0, 0, 0]})
                 space3DTexture.push(null)
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonGlass)) {
@@ -90,6 +69,32 @@ function mouseUpMain(x, y, button) {
                     selected.space3DThing = i
                     editor.textName.value = space3D[selected.space3DThing]['Name']
                 }
+            }
+
+            // Image Handle
+            if (pointInsideRectArray(x, y, UI.barTop.buttonConvertImage)) {
+                drawGlassTexture(space3D, space3DTexture, camera, light.direction)
+                draw3DSpaceFull(space3D, space3DTexture, camera, light.direction)
+                contextImageFull.clearRect(0, 0, 320, 320)
+                contextImageFull.fillRect(0, 0, 320, 320)
+                contextImageFull.drawImage(canvasG, 0, 0)
+            }
+
+            if (pointInsideRectArray(x, y, UI.barTop.buttonDownload)) {
+                downloadImage()
+            }
+
+            if (pointInsideRectArray(x, y, UI.barTop.buttonUpload)) {
+                imageTestDOM.click()
+            }
+
+            if (pointInsideRectArray(x, y, UI.barTop.buttonGenerateImage)) {
+                generateSpace(5)
+                generateImages()
+            }
+
+            if (pointInsideRectArray(x, y, UI.barTop.buttonDownloadMultiple)) {
+                downloadImageGenerated()
             }
         } else if (state === 'SelectedSpace3D') {
             if (pointInsideRectArray(x, y, UI.barRight.buttonDone)) {

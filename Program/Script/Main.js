@@ -24,12 +24,20 @@ function main() {
         textDOM.style.visibility = 'hidden'
         imageTestDOM = document.getElementById('ImageTestUpload')
         imageTestDOM.style.visibility = 'hidden'
+        imageBackgroundDOM = document.getElementById('ImageBackgroundUpload')
+        imageBackgroundDOM.style.visibility = 'hidden'
 
         canvasImageFull = document.createElement('canvas')
         contextImageFull = canvasImageFull.getContext('2d')
         canvasImageFull.width = 320
         canvasImageFull.height = 320
         contextImageFull.fillStyle = 'White'
+
+        canvasSpaceBackground = document.createElement('canvas')
+        contextSpaceBackground = canvasImageFull.getContext('2d')
+        canvasSpaceBackground.width = 320
+        canvasSpaceBackground.height = 320
+        contextSpaceBackground.fillStyle = 'White'
 
         test = document.getElementById('Test')
         testContext = test.getContext('2d')
@@ -39,6 +47,7 @@ function main() {
         window.addEventListener('keyup', keyUp, false)
         editor.textName.addEventListener('change', onTextNameChange, false)
         testImage.addEventListener('load', drawTestImage, false)
+        space3DBackground.addEventListener('load', drawBackground, false)
 
         glInit()
 
@@ -46,7 +55,7 @@ function main() {
         programFramePrevious = Date.now() - 16
         programLoop = requestAnimationFrame(loop)
     }).catch(function () {
-        alert('Load failed')
+        console.log('Load failed')
     })
 }
 

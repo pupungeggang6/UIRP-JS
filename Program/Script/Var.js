@@ -10,10 +10,13 @@ let canvasImageFull
 let contextImageFull
 let canvasGenerate = []
 let contextGenerate = []
+let canvasSpaceBackground
+let contextSpaceBackground
 
 let fileDOM
 let textDOM
 let imageTestDOM
+let imageBackgroundDOM
 
 let glVar = {
     program : null,
@@ -54,6 +57,8 @@ let state = ''
 let selected = {
     space3DThing : -1,
 }
+
+let space3DBackground = new Image()
 
 let space3D = [
     

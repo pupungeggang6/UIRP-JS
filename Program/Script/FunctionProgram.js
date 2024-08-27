@@ -70,7 +70,7 @@ function uploadFile(input) {
     let reader = new FileReader()
     reader.readAsText(file)
 
-    reader.onload = function () {
+    reader.addEventListener('load',function () {
         let tempSpace = JSON.parse(reader.result)
         space3D = tempSpace.space
         camera = tempSpace.camera
@@ -80,10 +80,15 @@ function uploadFile(input) {
         for (let i = 0; i < space3D.length; i++) {
             space3DTexture.push(null)
         }
-    }
+    }, false)
 }
 
 function uploadTestImage(input) {
     let file = input.files[0]
     testImage.src = URL.createObjectURL(file)
+}
+
+function uploadBackgroundImage(input) {
+    let file = input.files[0]
+    space3DBackground.src = URL.createObjectURL(file)
 }

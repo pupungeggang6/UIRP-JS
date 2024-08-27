@@ -19,6 +19,7 @@ function drawBarTop() {
     context.drawImage(img.button.save, UI.barTop.buttonSave[0], UI.barTop.buttonSave[1])
     context.drawImage(img.button.load, UI.barTop.buttonLoad[0], UI.barTop.buttonLoad[1])
 
+    context.drawImage(img.button.background, UI.barTop.buttonBackground[0], UI.barTop.buttonBackground[1])
     context.drawImage(img.button.cube, UI.barTop.buttonCube[0], UI.barTop.buttonCube[1])
     context.drawImage(img.button.glass, UI.barTop.buttonGlass[0], UI.barTop.buttonGlass[1])
     context.drawImage(img.button.camera, UI.barTop.buttonCamera[0], UI.barTop.buttonCamera[1])
@@ -150,7 +151,7 @@ function drawImageReflection() {
 
 function draw3DSpace(space3D, texture, camera, light) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
-    gl.enable(gl.DEPTH_TEST)
+    gl.disable(gl.DEPTH_TEST)
     gl.enable(gl.BLEND)
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
 
@@ -159,10 +160,19 @@ function draw3DSpace(space3D, texture, camera, light) {
     gl.lineWidth(2)
     gl.useProgram(glVar.program)
     
-    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
-    gl.vertexAttribPointer(glVar.location.texture, 2, gl.FLOAT, false, 0, 0)
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
     gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
+    gl.vertexAttribPointer(glVar.location.texture, 2, gl.FLOAT, false, 0, 0)
+
+    gl.uniform1i(glVar.location.mode, 1)
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, space3DBackground)
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, -1.0, 1.0, 0.0, -1.0, 1.0, 0.0, 1.0, -1.0, 0.0, 1.0, 1.0, 0.0]), gl.STATIC_DRAW)
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
+
+    gl.enable(gl.DEPTH_TEST)
 
     cameraMatrix = matrixIdentity()
     cameraMatrix = matrixMultiply(matrixTranslate(-camera.position[0], -camera.position[1], -camera.position[2]), cameraMatrix)
@@ -203,7 +213,7 @@ function drawGlassTexture(space3D, texture, camera, light) {
 
 function draw3DSpaceFull(space3D, texture, camera, light) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
-    gl.enable(gl.DEPTH_TEST)
+    gl.disable(gl.DEPTH_TEST)
     gl.enable(gl.BLEND)
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
 
@@ -216,6 +226,17 @@ function draw3DSpaceFull(space3D, texture, camera, light) {
     gl.vertexAttribPointer(glVar.location.texture, 2, gl.FLOAT, false, 0, 0)
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
     gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)
+
+    gl.uniform1i(glVar.location.mode, 1)
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvasSpaceBackground)
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, -1.0, 1.0, 0.0, -1.0, 1.0, 0.0, 1.0, -1.0, 0.0, 1.0, 1.0, 0.0]), gl.STATIC_DRAW)
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
+    gl.drawArrays(gl.TRIANGLES, 0, 6)
+
+    /*
+    gl.enable(gl.DEPTH_TEST)
 
     cameraMatrix = matrixIdentity()
     cameraMatrix = matrixMultiply(matrixTranslate(-camera.position[0], -camera.position[1], -camera.position[2]), cameraMatrix)
@@ -232,6 +253,7 @@ function draw3DSpaceFull(space3D, texture, camera, light) {
             drawGlass(space3D[i]['Geometry'], texture[i], light)
         }
     }
+    */
 }
 
 function drawCuboid(geometry, texture, light) {
@@ -335,4 +357,9 @@ function drawGlass(geometry, texture, light) {
 function drawTestImage() {
     contextImageFull.clearRect(0, 0, 320, 320)
     contextImageFull.drawImage(testImage, 0, 0, 320, 320)
+}
+
+function drawBackground() {
+    contextSpaceBackground.clearRect(0, 0, 320, 320)
+    contextSpaceBackground.drawImage(space3DBackground, 0, 0, 320, 320)
 }

@@ -4,6 +4,7 @@ let img = {
         save : new Image(),
         load : new Image(),
 
+        background : new Image(),
         cube : new Image(),
         glass : new Image(),
         camera : new Image(),
@@ -30,6 +31,7 @@ function imageLoad() {
     img.button.save.src = 'Image/ButtonSave.png'
     img.button.load.src = 'Image/ButtonLoad.png'
 
+    img.button.background.src = 'Image/ButtonBackground.png'
     img.button.cube.src = 'Image/ButtonCube.png'
     img.button.glass.src = 'Image/ButtonGlass.png'
     img.button.camera.src = 'Image/ButtonCamera.png'
@@ -48,4 +50,6 @@ function imageLoad() {
     img.button.down.src = 'Image/ButtonDown.png'
     img.button.done.src = 'Image/ButtonDone.png'
     img.button.delete.src = 'Image/ButtonDelete.png'
+
+    space3DBackground.src = 'Image/Empty.png'
 }
