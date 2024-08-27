@@ -34,7 +34,7 @@ function main() {
         contextImageFull.fillStyle = 'White'
 
         canvasSpaceBackground = document.createElement('canvas')
-        contextSpaceBackground = canvasImageFull.getContext('2d')
+        contextSpaceBackground = canvasSpaceBackground.getContext('2d')
         canvasSpaceBackground.width = 320
         canvasSpaceBackground.height = 320
         contextSpaceBackground.fillStyle = 'White'

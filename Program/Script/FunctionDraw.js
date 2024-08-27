@@ -151,7 +151,7 @@ function drawImageReflection() {
 
 function draw3DSpace(space3D, texture, camera, light) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
-    gl.disable(gl.DEPTH_TEST)
+    gl.enable(gl.DEPTH_TEST)
     gl.enable(gl.BLEND)
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
 
@@ -160,19 +160,10 @@ function draw3DSpace(space3D, texture, camera, light) {
     gl.lineWidth(2)
     gl.useProgram(glVar.program)
     
-    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
-    gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
     gl.vertexAttribPointer(glVar.location.texture, 2, gl.FLOAT, false, 0, 0)
-
-    gl.uniform1i(glVar.location.mode, 1)
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, space3DBackground)
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, -1.0, 1.0, 0.0, -1.0, 1.0, 0.0, 1.0, -1.0, 0.0, 1.0, 1.0, 0.0]), gl.STATIC_DRAW)
-    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
-
-    gl.enable(gl.DEPTH_TEST)
+    gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)
 
     cameraMatrix = matrixIdentity()
     cameraMatrix = matrixMultiply(matrixTranslate(-camera.position[0], -camera.position[1], -camera.position[2]), cameraMatrix)
@@ -222,12 +213,15 @@ function draw3DSpaceFull(space3D, texture, camera, light) {
     gl.lineWidth(2)
     gl.useProgram(glVar.program)
     
-    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
-    gl.vertexAttribPointer(glVar.location.texture, 2, gl.FLOAT, false, 0, 0)
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
     gl.vertexAttribPointer(glVar.location.position, 3, gl.FLOAT, false, 0, 0)
+    gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.texture)
+    gl.vertexAttribPointer(glVar.location.texture, 2, gl.FLOAT, false, 0, 0)
+
+    gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1])
 
     gl.uniform1i(glVar.location.mode, 1)
+    gl.uniform4f(glVar.location.brightness, 1.0, 1.0, 1.0, 1.0)
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvasSpaceBackground)
     gl.bindBuffer(gl.ARRAY_BUFFER, glVar.buffer.vertex)
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, -1.0, 1.0, 0.0, -1.0, 1.0, 0.0, 1.0, -1.0, 0.0, 1.0, 1.0, 0.0]), gl.STATIC_DRAW)
@@ -235,7 +229,8 @@ function draw3DSpaceFull(space3D, texture, camera, light) {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]), gl.STATIC_DRAW)
     gl.drawArrays(gl.TRIANGLES, 0, 6)
 
-    /*
+    gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, -1.1, 0, 0, 0, 1])
+
     gl.enable(gl.DEPTH_TEST)
 
     cameraMatrix = matrixIdentity()
@@ -244,8 +239,6 @@ function draw3DSpaceFull(space3D, texture, camera, light) {
     cameraMatrix = matrixMultiply(matrixRotate(1, -camera.rotation[1]), cameraMatrix)
     cameraMatrix = matrixMultiply(matrixRotate(0, -camera.rotation[0]), cameraMatrix)
 
-    gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, -1.1, 0, 0, 0, 1])
-
     for (let i = 0; i < space3D.length; i++) {
         if (space3D[i]['Type'] === 'Cuboid') {
             drawCuboid(space3D[i]['Geometry'], texture[i], light)
@@ -253,7 +246,6 @@ function draw3DSpaceFull(space3D, texture, camera, light) {
             drawGlass(space3D[i]['Geometry'], texture[i], light)
         }
     }
-    */
 }
 
 function drawCuboid(geometry, texture, light) {
