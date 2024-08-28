@@ -32,6 +32,7 @@ async function showExamples(data) {
 }
 
 async function run() {  
+    tf.setBackend('webgl')
     const data = new MnistData()
     await data.load()
     await showExamples(data)
