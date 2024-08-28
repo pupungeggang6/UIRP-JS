@@ -173,5 +173,5 @@ async function showConfusion(model, data) {
     const container = {name: 'Confusion Matrix', tab: 'Evaluation'}
     tfvis.render.confusionMatrix(container, {values: confusionMatrix, tickLabels: classNames})
 
-    labels.dispose();
+    labels.dispose()
 }
