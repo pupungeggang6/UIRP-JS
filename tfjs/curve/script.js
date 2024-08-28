@@ -1,3 +1,4 @@
+console.log('Hello TensorFlow')
 document.addEventListener('DOMContentLoaded', run)
 
 async function getData() {
