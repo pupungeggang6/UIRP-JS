@@ -50,7 +50,6 @@ function createModel() {
   
     // Add a single input layer
     model.add(tf.layers.dense({inputShape: [1], units: 1, useBias: true}))
-  
     // Add an output layer
     model.add(tf.layers.dense({units: 1, useBias: true}))
   
@@ -68,7 +67,6 @@ function convertToTensor(data) {
         // Step 2. Convert data to Tensor
         const inputs = data.map(d => d.horsepower)
         const labels = data.map(d => d.mpg)
-  
         const inputTensor = tf.tensor2d(inputs, [inputs.length, 1])
         const labelTensor = tf.tensor2d(labels, [labels.length, 1])
   
@@ -77,7 +75,6 @@ function convertToTensor(data) {
         const inputMin = inputTensor.min()
         const labelMax = labelTensor.max()
         const labelMin = labelTensor.min()
-  
         const normalizedInputs = inputTensor.sub(inputMin).div(inputMax.sub(inputMin))
         const normalizedLabels = labelTensor.sub(labelMin).div(labelMax.sub(labelMin))
   
