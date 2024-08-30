@@ -12,10 +12,13 @@ let img = {
         reflection : new Image(),
 
         download : new Image(),
-        upload : new Image(),
         convertImage : new Image(),
         train : new Image(),
         removeReflection : new Image(),
+
+        upload : new Image(),
+        uploadRef : new Image(),
+        uploadRefNo : new Image(),
         generateImage : new Image(),
         downloadMultiple : new Image(),
 
@@ -39,12 +42,15 @@ function imageLoad() {
     img.button.reflection.src = 'Image/ButtonReflection.png'
 
     img.button.download.src = 'Image/ButtonDownload.png'
-    img.button.upload.src = 'Image/ButtonUpload.png'
     img.button.convertImage.src = 'Image/ButtonConvertImage.png'
+    img.button.generateImage.src = 'Image/ButtonGenerateImage.png'
+
+    img.button.upload.src = 'Image/ButtonUpload.png'
+    img.button.uploadRef.src = 'Image/ButtonUploadRef.png'
+    img.button.uploadRefNo.src = 'Image/ButtonUploadRefNo.png'
+    img.button.downloadMultiple.src = 'Image/ButtonDownloadMultiple.png'
     img.button.train.src = 'Image/ButtonTrain.png'
     img.button.removeReflection.src = 'Image/ButtonRemoveReflection.png'
-    img.button.generateImage.src = 'Image/ButtonGenerateImage.png'
-    img.button.downloadMultiple.src = 'Image/ButtonDownloadMultiple.png'
 
     img.button.up.src = 'Image/ButtonUp.png'
     img.button.down.src = 'Image/ButtonDown.png'

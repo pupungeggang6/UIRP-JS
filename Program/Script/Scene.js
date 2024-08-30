@@ -80,6 +80,15 @@ function mouseUpMain(x, y, button) {
                 contextImageFull.drawImage(canvasG, 0, 0)
             }
 
+            if (pointInsideRectArray(x, y, UI.barTop.buttonGenerateImage)) {
+                generateSpace(5)
+                generateImages()
+            }
+
+            if (pointInsideRectArray(x, y, UI.barTop.buttonDownloadMultiple)) {
+                downloadImageGenerated()
+            }
+
             if (pointInsideRectArray(x, y, UI.barTop.buttonDownload)) {
                 downloadImage()
             }
@@ -88,13 +97,12 @@ function mouseUpMain(x, y, button) {
                 imageTestDOM.click()
             }
 
-            if (pointInsideRectArray(x, y, UI.barTop.buttonGenerateImage)) {
-                generateSpace(5)
-                generateImages()
+            if (pointInsideRectArray(x, y, UI.barTop.buttonUploadRef)) {
+                imageModelRefDOM.click()
             }
 
-            if (pointInsideRectArray(x, y, UI.barTop.buttonDownloadMultiple)) {
-                downloadImageGenerated()
+            if (pointInsideRectArray(x, y, UI.barTop.buttonUploadRefNo)) {
+                imageModelRefNoDOM.click()
             }
         } else if (state === 'SelectedSpace3D') {
             if (pointInsideRectArray(x, y, UI.barRight.buttonDone)) {

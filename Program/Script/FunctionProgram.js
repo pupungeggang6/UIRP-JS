@@ -6,7 +6,7 @@ function generateSpace(num) {
             'Thing' : JSON.parse(JSON.stringify(space3D)),
             'Camera' : {
                 position : [camera.position[0] - 0.2 + Math.random() * 0.4, camera.position[1] - 0.2 + Math.random() * 0.4, camera.position[2] - 0.2 + Math.random() * 0.4],
-                rotation : [camera.rotation[0] - 10 + Math.random() * 20, camera.rotation[1] - 10 + Math.random() * 20, camera.rotation[2] - 10 + Math.random() * 20]
+                rotation : [camera.rotation[0] - 20 + Math.random() * 40, camera.rotation[1] - 20 + Math.random() * 40, camera.rotation[2] - 20 + Math.random() * 40]
             },
             'LightDirection' : [0, 0, -1],
         }
@@ -38,7 +38,6 @@ function generateImages() {
         tempContext.drawImage(canvasG, 0, 0, 224, 224)
         canvasGenerate.push(tempCanvas)
         contextGenerate.push(tempContext)
-        imageName.push(`GeneratedNoReflection${i}.png`)
     }
 
     reflectionMode = true
@@ -55,7 +54,6 @@ function generateImages() {
         tempContext.drawImage(canvasG, 0, 0, 224, 224)
         canvasGenerate.push(tempCanvas)
         contextGenerate.push(tempContext)
-        imageName.push(`GeneratedReflection${i}.png`)
     }
 }
 
@@ -91,4 +89,22 @@ function uploadTestImage(input) {
 function uploadBackgroundImage(input) {
     let file = input.files[0]
     space3DBackground.src = URL.createObjectURL(file)
+}
+
+function uploadModelRefImage(input) {
+    imageModelRef = []
+    for (let i = 0; i < input.files.length; i++) {
+        let tempImage = new Image()
+        tempImage.src = URL.createObjectURL(input.files[i])
+        imageModelRef.push(tempImage)
+    }
+}
+
+function uploadModelRefNoImage(input) {
+    imageModelRefNo = []
+    for (let i = 0; i < input.files.length; i++) {
+        let tempImage = new Image()
+        tempImage.src = URL.createObjectURL(input.files[i])
+        imageModelRefNo.push(tempImage)
+    }
 }

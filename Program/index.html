@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
         <title>Image Synth Program</title>
         <style>
             #ScreenUI {
@@ -60,6 +62,8 @@
         <input id="FileUpload" type="file" accept="text/*" onchange="uploadFile(this)"/>
         <input id="ImageTestUpload" type="file" accept="image/*" onchange="uploadTestImage(this)"/>
         <input id="ImageBackgroundUpload" type="file" accept="image/*" onchange="uploadBackgroundImage(this)"/>
+        <input id="ImageModelRefUpload" type="file" multiple accept="image/*" onchange="uploadModelRefImage(this)"/>
+        <input id="ImageModelRefNoUpload" type="file" multiple accept="image/*" onchange="uploadModelRefNoImage(this)"/>
 
         <script src="Script/Asset.js"></script>
         <script src="Script/UI.js"></script>

@@ -26,6 +26,10 @@ function main() {
         imageTestDOM.style.visibility = 'hidden'
         imageBackgroundDOM = document.getElementById('ImageBackgroundUpload')
         imageBackgroundDOM.style.visibility = 'hidden'
+        imageModelRefDOM = document.getElementById('ImageModelRefUpload')
+        imageModelRefDOM.style.visibility = 'hidden'
+        imageBackRefNoDOM = document.getElementById('ImageModelRefNoUpload')
+        imageBackRefNoDOM.style.visibility = 'hidden'
 
         canvasImageFull = document.createElement('canvas')
         contextImageFull = canvasImageFull.getContext('2d')
@@ -54,8 +58,6 @@ function main() {
         programFrameCurrent = Date.now()
         programFramePrevious = Date.now() - 16
         programLoop = requestAnimationFrame(loop)
-    }).catch(function () {
-        console.log('Load failed')
     })
 }
 

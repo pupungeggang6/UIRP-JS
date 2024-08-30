@@ -17,6 +17,8 @@ let fileDOM
 let textDOM
 let imageTestDOM
 let imageBackgroundDOM
+let imageModelRefDOM
+let imageModelRefNoDOM
 
 let glVar = {
     program : null,
@@ -90,7 +92,14 @@ let editor = {
 
 let space3DGenerated = []
 let imageGenerated = []
-let imageName = []
 let reflectionMode = false
+let downloadedNum = 0
+let downloadedNumRef = 0
 
 let testImage = new Image()
+let imageModelRef = []
+let imageModelRefNo = []
+
+let model
+let modelTrain = []
+let modelTest = []

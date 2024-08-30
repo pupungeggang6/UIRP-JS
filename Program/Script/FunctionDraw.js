@@ -32,9 +32,12 @@ function drawBarTop() {
 
     context.drawImage(img.button.convertImage, UI.barTop.buttonConvertImage[0], UI.barTop.buttonConvertImage[1])
     context.drawImage(img.button.download, UI.barTop.buttonDownload[0], UI.barTop.buttonDownload[1])
-    context.drawImage(img.button.upload, UI.barTop.buttonUpload[0], UI.barTop.buttonUpload[1])
     context.drawImage(img.button.generateImage, UI.barTop.buttonGenerateImage[0], UI.barTop.buttonGenerateImage[1])
     context.drawImage(img.button.downloadMultiple, UI.barTop.buttonDownloadMultiple[0], UI.barTop.buttonDownloadMultiple[1])
+
+    context.drawImage(img.button.upload, UI.barTop.buttonUpload[0], UI.barTop.buttonUpload[1])
+    context.drawImage(img.button.uploadRef, UI.barTop.buttonUploadRef[0], UI.barTop.buttonUploadRef[1])
+    context.drawImage(img.button.uploadRefNo, UI.barTop.buttonUploadRefNo[0], UI.barTop.buttonUploadRefNo[1])
     context.drawImage(img.button.train, UI.barTop.buttonTrain[0], UI.barTop.buttonTrain[1])
     context.drawImage(img.button.removeReflection, UI.barTop.buttonRemoveReflection[0], UI.barTop.buttonRemoveReflection[1])
 }

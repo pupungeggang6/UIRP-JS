@@ -26,14 +26,16 @@ function downloadImage() {
 function downloadImageGenerated() {
     for (let i = 0; i < canvasGenerate.length; i++) {
         var link = document.createElement('a')
-        link.download = imageName[i]
+        if (i < 5) {
+            link.download = `ImageRefNo${downloadedNum.toString().padStart(3, '0')}.png`
+            downloadedNum += 1
+        } else {
+            link.download = `ImageRef${downloadedNumRef.toString().padStart(3, '0')}.png`
+            downloadedNumRef += 1
+        } 
         link.href = canvasGenerate[i].toDataURL()
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
     }
-}
-
-function uploadFile() {
-
 }

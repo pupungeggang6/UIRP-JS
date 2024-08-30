@@ -14,11 +14,14 @@ const UI = {
 
         buttonConvertImage : [440, 0, 40, 40],
         buttonDownload : [480, 0, 40, 40],
-        buttonUpload : [520, 0, 40, 40],
-        buttonGenerateImage : [560, 0, 40, 40],
-        buttonDownloadMultiple : [600, 0, 40, 40],
-        buttonTrain : [640, 0, 40, 40],
-        buttonRemoveReflection : [680, 0, 40, 40],
+        buttonGenerateImage : [520, 0, 40, 40],
+        buttonDownloadMultiple : [560, 0, 40, 40],
+
+        buttonUpload : [640, 0, 40, 40],
+        buttonUploadRef : [680, 0, 40, 40],
+        buttonUploadRefNo : [720, 0, 40, 40],
+        buttonTrain : [760, 0, 40, 40],
+        buttonRemoveReflection : [800, 0, 40, 40],
     },
 
     barBottom : {
