@@ -54,6 +54,7 @@ function main() {
         space3DBackground.addEventListener('load', drawBackground, false)
 
         glInit()
+        TFInit()
 
         programFrameCurrent = Date.now()
         programFramePrevious = Date.now() - 16
