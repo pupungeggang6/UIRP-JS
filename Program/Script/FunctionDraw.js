@@ -146,10 +146,12 @@ function drawImageFull() {
 
 function drawImageBackground() {
     context.strokeRect(UI.imageBackground[0], UI.imageBackground[1], UI.imageBackground[2], UI.imageBackground[3])
+    context.drawImage(canvasBackground, UI.imageBackground[0], UI.imageBackground[1])
 }
 
 function drawImageReflection() {
     context.strokeRect(UI.imageReflection[0], UI.imageReflection[1], UI.imageReflection[2], UI.imageReflection[3])
+    context.drawImage(canvasReflection, UI.imageReflection[0], UI.imageReflection[1])
 }
 
 function draw3DSpace(space3D, texture, camera, light) {

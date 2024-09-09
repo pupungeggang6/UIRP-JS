@@ -104,6 +104,13 @@ function mouseUpMain(x, y, button) {
             if (pointInsideRectArray(x, y, UI.barTop.buttonUploadRefNo)) {
                 imageModelRefNoDOM.click()
             }
+
+            if (pointInsideRectArray(x, y, UI.barTop.buttonTrain)) {
+                if (canvasGenerate.length > 0) {
+                    TFGetData()
+                    TFTrain()
+                }
+            }
         } else if (state === 'SelectedSpace3D') {
             if (pointInsideRectArray(x, y, UI.barRight.buttonDone)) {
                 selected.space3DThing = -1

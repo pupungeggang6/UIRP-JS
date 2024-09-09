@@ -43,6 +43,18 @@ function main() {
         canvasSpaceBackground.height = 320
         contextSpaceBackground.fillStyle = 'White'
 
+        canvasBackground = document.createElement('canvas')
+        contextBackground = canvasBackground.getContext('2d')
+        canvasBackground.width = 320
+        canvasBackground.height = 320
+        contextBackground.fillStyle = 'White'
+
+        canvasReflection = document.createElement('canvas')
+        contextReflection = canvasReflection.getContext('2d')
+        canvasReflection.width = 320
+        canvasReflection.height = 320
+        contextReflection.fillStyle = 'White'
+
         test = document.getElementById('Test')
         testContext = test.getContext('2d')
 

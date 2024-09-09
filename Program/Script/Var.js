@@ -13,6 +13,11 @@ let contextGenerate = []
 let canvasSpaceBackground
 let contextSpaceBackground
 
+let canvasBackground
+let contextBackground
+let cavnasReflection
+let contextReflection
+
 let fileDOM
 let textDOM
 let imageTestDOM
@@ -101,5 +106,7 @@ let imageModelRef = []
 let imageModelRefNo = []
 
 let model
-let modelTrain = []
-let modelTest = []
+let modelImageDataBackground = []
+let modelImageDataReflection = []
+let modelImageDataTrain = []
+let modelImageDataTest = []
