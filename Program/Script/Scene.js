@@ -108,7 +108,7 @@ function mouseUpMain(x, y, button) {
             if (pointInsideRectArray(x, y, UI.barTop.buttonTrain)) {
                 if (canvasGenerate.length > 0) {
                     TFGetData()
-                    TFTrain()
+                    TFRun()
                 }
             }
         } else if (state === 'SelectedSpace3D') {
