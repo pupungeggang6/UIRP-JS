@@ -7,6 +7,10 @@ function TFGetData() {
     }
 }
 
+function TFInit() {
+    
+}
+
 async function TFTrain() {
     
 }

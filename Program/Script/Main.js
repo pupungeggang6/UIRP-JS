@@ -28,8 +28,8 @@ function main() {
         imageBackgroundDOM.style.visibility = 'hidden'
         imageModelRefDOM = document.getElementById('ImageModelRefUpload')
         imageModelRefDOM.style.visibility = 'hidden'
-        imageBackRefNoDOM = document.getElementById('ImageModelRefNoUpload')
-        imageBackRefNoDOM.style.visibility = 'hidden'
+        imageModelRefNoDOM = document.getElementById('ImageModelRefNoUpload')
+        imageModelRefNoDOM.style.visibility = 'hidden'
 
         canvasImageFull = document.createElement('canvas')
         contextImageFull = canvasImageFull.getContext('2d')
