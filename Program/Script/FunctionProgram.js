@@ -36,8 +36,8 @@ function generateImages() {
         draw3DSpaceFull(space3DGenerated[i]['Thing'], space3DTexture, space3DGenerated[i]['Camera'], light.direction)
         tempContext.clearRect(0, 0, 224, 224)
         tempContext.drawImage(canvasG, 0, 0, 224, 224)
-        canvasGenerate.push(tempCanvas)
-        contextGenerate.push(tempContext)
+        canvasGenerateBackground.push(tempCanvas)
+        contextGenerateBackground.push(tempContext)
     }
 
     reflectionMode = true
@@ -52,8 +52,8 @@ function generateImages() {
         tempContext.clearRect(0, 0, 224, 224)
         tempContext.fillRect(0, 0, 224, 224)
         tempContext.drawImage(canvasG, 0, 0, 224, 224)
-        canvasGenerate.push(tempCanvas)
-        contextGenerate.push(tempContext)
+        canvasGenerateReflection.push(tempCanvas)
+        contextGenerateReflection.push(tempContext)
     }
 }
 

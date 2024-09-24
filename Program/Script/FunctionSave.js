@@ -24,16 +24,19 @@ function downloadImage() {
 }
 
 function downloadImageGenerated() {
-    for (let i = 0; i < canvasGenerate.length; i++) {
+    for (let i = 0; i < 5; i++) {
         var link = document.createElement('a')
-        if (i < 5) {
-            link.download = `ImageRefNo${downloadedNum.toString().padStart(3, '0')}.png`
-            downloadedNum += 1
-        } else {
-            link.download = `ImageRef${downloadedNumRef.toString().padStart(3, '0')}.png`
-            downloadedNumRef += 1
-        } 
-        link.href = canvasGenerate[i].toDataURL()
+        link.download = `ImageBg${i}.png`
+        link.href = canvasGenerateBackground[i].toDataURL()
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    }
+
+    for (let i = 0; i < 5; i++) {
+        var link = document.createElement('a')
+        link.download = `ImageRef${i}.png`
+        link.href = canvasGenerateReflection[i].toDataURL()
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
