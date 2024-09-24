@@ -12,6 +12,8 @@ let canvasGenerateReflection = []
 let canvasGenerateBackground = []
 let contextGenerateReflection = []
 let contextGenerateBackground = []
+let canvasGenerateFull = []
+let contextGenerateFull = []
 let canvasSpaceBackground
 let contextSpaceBackground
 

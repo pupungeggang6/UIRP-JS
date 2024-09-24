@@ -26,17 +26,8 @@ function downloadImage() {
 function downloadImageGenerated() {
     for (let i = 0; i < 5; i++) {
         var link = document.createElement('a')
-        link.download = `ImageBg${i}.png`
-        link.href = canvasGenerateBackground[i].toDataURL()
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-    }
-
-    for (let i = 0; i < 5; i++) {
-        var link = document.createElement('a')
-        link.download = `ImageRef${i}.png`
-        link.href = canvasGenerateReflection[i].toDataURL()
+        link.download = `ImageFull${i}.png`
+        link.href = canvasGenerateFull[i].toDataURL()
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
