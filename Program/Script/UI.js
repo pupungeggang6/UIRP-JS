@@ -25,13 +25,13 @@ const UI = {
     },
 
     barBottom : {
-        rect : [0, 680, 1280, 720],
-        textState : [964, 684],
-        textAlert : [4, 684]
+        rect : [0, 480, 1280, 40],
+        textState : [964, 484],
+        textAlert : [4, 484]
     },
 
     barLeft : {
-        rect : [0, 40, 320, 640],
+        rect : [0, 40, 320, 440],
         elementStart : [0, 40],
         elementText : [4, 0],
         elementInterval : [0, 40],
@@ -39,7 +39,7 @@ const UI = {
     },
 
     barRight : {
-        rect : [960, 40, 320, 640],
+        rect : [960, 40, 320, 440],
         textName : [964, 44],
         textNameRect : [960, 40, 320, 40],
         textPosition : [964, 84],
@@ -56,11 +56,9 @@ const UI = {
         buttonTexture : [960, 400, 320, 40],
         textTexture : [964, 404],
 
-        buttonDelete : [960, 640, 40, 40],
-        buttonDone : [1240, 640, 40, 40]
+        buttonDelete : [960, 440, 40, 40],
+        buttonDone : [1240, 440, 40, 40]
     },
 
     imageFull : [640, 40, 320, 320],
-    imageBackground : [320, 360, 320, 320],
-    imageReflection : [640, 360, 320, 320],
 }

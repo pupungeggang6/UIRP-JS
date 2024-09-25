@@ -8,8 +8,12 @@ let testContext
 
 let canvasImageFull
 let contextImageFull
-let canvasGenerate = []
-let contextGenerate = []
+let canvasGenerateBg = []
+let contextGenerateBg = []
+let canvasGenerateRef = []
+let contextGenerateRef = []
+let canvasGenerateFull = []
+let contextGenerateFull = []
 let canvasSpaceBackground
 let contextSpaceBackground
 

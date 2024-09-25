@@ -2,8 +2,16 @@ function generateSpace(num) {
     space3DGenerated = []
     
     for (let i = 0; i < num; i++) {
+        let tempThing = JSON.parse(JSON.stringify(space3D))
+
+        for (let j = 0; j < tempThing.length; j++) {
+            tempThing[j]['Geometry'][0] += -0.05 + Math.random() * 0.1
+            tempThing[j]['Geometry'][1] += -0.05 + Math.random() * 0.1
+            tempThing[j]['Geometry'][2] += -0.05 + Math.random() * 0.1
+        }
+
         let tempSpace = {
-            'Thing' : JSON.parse(JSON.stringify(space3D)),
+            'Thing' : tempThing,
             'Camera' : {
                 position : [camera.position[0] - 0.2 + Math.random() * 0.4, camera.position[1] - 0.2 + Math.random() * 0.4, camera.position[2] - 0.2 + Math.random() * 0.4],
                 rotation : [camera.rotation[0] - 20 + Math.random() * 40, camera.rotation[1] - 20 + Math.random() * 40, camera.rotation[2] - 20 + Math.random() * 40]
@@ -20,11 +28,31 @@ function generateSpace(num) {
     }
 }
 
-function generateImages() {
-    imageGenerated = []
-    canvasGenerate = []
-    contextGenerate = []
-    imageName = []
+function findGlass(index) {
+    let tempGlass = {}
+    let space3DTemp = space3DGenerated[index]['Thing']
+    for (let i = 0; i < space3DTemp.length; i++) {
+        if (space3DTemp[i]['Type'] === 'Glass') {
+            let normal = [0, 0, -1]
+            normal = matrixVectorTransform(matrixRotate(2, space3DTemp[i]['Geometry'][8]), normal)
+            normal = matrixVectorTransform(matrixRotate(1, space3DTemp[i]['Geometry'][7]), normal)
+            normal = matrixVectorTransform(matrixRotate(0, space3DTemp[i]['Geometry'][6]), normal)
+            tempGlass = {
+                position : [space3DTemp[i]['Geometry'][0] + normal[0] * 0.4, space3DTemp[i]['Geometry'][1] + normal[1] * 0.4, space3DTemp[i]['Geometry'][2] + normal[2] * 0.4],
+                rotation : [space3DTemp[i]['Geometry'][6], space3DTemp[i]['Geometry'][7], space3DTemp[i]['Geometry'][8]],
+            }
+        }
+    }
+    return tempGlass
+}
+
+async function generateImages() {
+    canvasGenerateBg = []
+    contextGenerateBg = []
+    canvasGenerateRef = []
+    contextGenerateRef = []
+    canvasGenerateFull = []
+    contextGenerateFull = []
     
     reflectionMode = false
     for (let i = 0; i < space3DGenerated.length; i++) {
@@ -32,12 +60,15 @@ function generateImages() {
         let tempContext = tempCanvas.getContext('2d')
         tempCanvas.width = 224
         tempCanvas.height = 224
-        drawGlassTexture(space3DGenerated[i]['Thing'], space3DTexture, space3DGenerated[i]['Camera'], light.direction)
-        draw3DSpaceFull(space3DGenerated[i]['Thing'], space3DTexture, space3DGenerated[i]['Camera'], light.direction)
+        tempContext.fillStyle = 'White'
+        camera = findGlass(i)
+        drawGlassTexture(space3DGenerated[i]['Thing'], space3DTexture, camera, light.direction)
+        draw3DSpaceFull(space3DGenerated[i]['Thing'], space3DTexture, camera, light.direction)
         tempContext.clearRect(0, 0, 224, 224)
+        tempContext.fillRect(0, 0, 224, 224)
         tempContext.drawImage(canvasG, 0, 0, 224, 224)
-        canvasGenerate.push(tempCanvas)
-        contextGenerate.push(tempContext)
+        canvasGenerateBg.push(tempCanvas)
+        contextGenerateBg.push(tempContext)
     }
 
     reflectionMode = true
@@ -47,13 +78,26 @@ function generateImages() {
         tempCanvas.width = 224
         tempCanvas.height = 224
         tempContext.fillStyle = 'White'
-        drawGlassTexture(space3DGenerated[i]['Thing'], space3DTexture, space3DGenerated[i]['Camera'], light.direction)
-        draw3DSpaceFull(space3DGenerated[i]['Thing'], space3DTexture, space3DGenerated[i]['Camera'], light.direction)
+        camera = findGlass(i)
+        await drawGlassTexture(space3DGenerated[i]['Thing'], space3DTexture, camera, light.direction)
+        await draw3DSpaceFull(space3DGenerated[i]['Thing'], space3DTexture, camera, light.direction)
         tempContext.clearRect(0, 0, 224, 224)
         tempContext.fillRect(0, 0, 224, 224)
         tempContext.drawImage(canvasG, 0, 0, 224, 224)
-        canvasGenerate.push(tempCanvas)
-        contextGenerate.push(tempContext)
+        canvasGenerateRef.push(tempCanvas)
+        contextGenerateRef.push(tempContext)
+    }
+
+    for (let i = 0; i < space3DGenerated.length; i++) {
+        let tempCanvas = document.createElement('canvas')
+        let tempContext = tempCanvas.getContext('2d')
+        tempCanvas.width = 448
+        tempCanvas.height = 224
+        tempContext.clearRect(0, 0, 224, 224)
+        tempContext.drawImage(canvasGenerateRef[i], 0, 0, 224, 224)
+        tempContext.drawImage(canvasGenerateBg[i], 224, 0, 224, 224)
+        canvasGenerateFull.push(tempCanvas)
+        contextGenerateFull.push(tempContext)
     }
 }
 

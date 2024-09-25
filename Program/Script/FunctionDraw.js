@@ -34,12 +34,6 @@ function drawBarTop() {
     context.drawImage(img.button.download, UI.barTop.buttonDownload[0], UI.barTop.buttonDownload[1])
     context.drawImage(img.button.generateImage, UI.barTop.buttonGenerateImage[0], UI.barTop.buttonGenerateImage[1])
     context.drawImage(img.button.downloadMultiple, UI.barTop.buttonDownloadMultiple[0], UI.barTop.buttonDownloadMultiple[1])
-
-    context.drawImage(img.button.upload, UI.barTop.buttonUpload[0], UI.barTop.buttonUpload[1])
-    context.drawImage(img.button.uploadRef, UI.barTop.buttonUploadRef[0], UI.barTop.buttonUploadRef[1])
-    context.drawImage(img.button.uploadRefNo, UI.barTop.buttonUploadRefNo[0], UI.barTop.buttonUploadRefNo[1])
-    context.drawImage(img.button.train, UI.barTop.buttonTrain[0], UI.barTop.buttonTrain[1])
-    context.drawImage(img.button.removeReflection, UI.barTop.buttonRemoveReflection[0], UI.barTop.buttonRemoveReflection[1])
 }
 
 function drawBarLeft() {
@@ -144,14 +138,6 @@ function drawImageFull() {
     context.drawImage(canvasImageFull, UI.imageFull[0], UI.imageFull[1])
 }
 
-function drawImageBackground() {
-    context.strokeRect(UI.imageBackground[0], UI.imageBackground[1], UI.imageBackground[2], UI.imageBackground[3])
-}
-
-function drawImageReflection() {
-    context.strokeRect(UI.imageReflection[0], UI.imageReflection[1], UI.imageReflection[2], UI.imageReflection[3])
-}
-
 function draw3DSpace(space3D, texture, camera, light) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.enable(gl.DEPTH_TEST)
@@ -170,9 +156,9 @@ function draw3DSpace(space3D, texture, camera, light) {
 
     cameraMatrix = matrixIdentity()
     cameraMatrix = matrixMultiply(matrixTranslate(-camera.position[0], -camera.position[1], -camera.position[2]), cameraMatrix)
-    cameraMatrix = matrixMultiply(matrixRotate(2, -camera.rotation[2]), cameraMatrix)
-    cameraMatrix = matrixMultiply(matrixRotate(1, -camera.rotation[1]), cameraMatrix)
     cameraMatrix = matrixMultiply(matrixRotate(0, -camera.rotation[0]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(1, -camera.rotation[1]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(2, -camera.rotation[2]), cameraMatrix)
 
     gl.uniformMatrix4fv(glVar.location.camera, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, -1.1, 0, 0, 0, 1])
 
@@ -183,12 +169,12 @@ function draw3DSpace(space3D, texture, camera, light) {
     }
 }
 
-function drawGlassTexture(space3D, texture, camera, light) {
+async function drawGlassTexture(space3D, texture, camera, light) {
     for (let i = 0; i < space3D.length; i++) {
         if (space3D[i]['Type'] === 'Glass') {
             let glassCamera = {
                 position : [space3D[i]['Geometry'][0], space3D[i]['Geometry'][1], space3D[i]['Geometry'][2]],
-                rotation : [space3D[i]['Geometry'][6], space3D[i]['Geometry'][7], space3D[i]['Geometry'][8]]
+                rotation : [space3D[i]['Geometry'][6], space3D[i]['Geometry'][7] + 180, space3D[i]['Geometry'][8]]
             }
             draw3DSpace(space3D, texture, glassCamera, light)
             let tempCanvas = document.createElement('canvas')
@@ -205,7 +191,7 @@ function drawGlassTexture(space3D, texture, camera, light) {
     }
 }
 
-function draw3DSpaceFull(space3D, texture, camera, light) {
+async function draw3DSpaceFull(space3D, texture, camera, light) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.disable(gl.DEPTH_TEST)
     gl.enable(gl.BLEND)
@@ -238,9 +224,9 @@ function draw3DSpaceFull(space3D, texture, camera, light) {
 
     cameraMatrix = matrixIdentity()
     cameraMatrix = matrixMultiply(matrixTranslate(-camera.position[0], -camera.position[1], -camera.position[2]), cameraMatrix)
-    cameraMatrix = matrixMultiply(matrixRotate(2, -camera.rotation[2]), cameraMatrix)
-    cameraMatrix = matrixMultiply(matrixRotate(1, -camera.rotation[1]), cameraMatrix)
     cameraMatrix = matrixMultiply(matrixRotate(0, -camera.rotation[0]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(1, -camera.rotation[1]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(2, -camera.rotation[2]), cameraMatrix)
 
     for (let i = 0; i < space3D.length; i++) {
         if (space3D[i]['Type'] === 'Cuboid') {
@@ -264,9 +250,9 @@ function drawCuboid(geometry, texture, light) {
     ]
 
     for (let i = 0; i < 8; i++) {
-        vertice[i] = matrixVectorTransform(matrixRotate(2, geometry[8]), vertice[i])
-        vertice[i] = matrixVectorTransform(matrixRotate(1, geometry[7]), vertice[i])
         vertice[i] = matrixVectorTransform(matrixRotate(0, geometry[6]), vertice[i])
+        vertice[i] = matrixVectorTransform(matrixRotate(1, geometry[7]), vertice[i])
+        vertice[i] = matrixVectorTransform(matrixRotate(2, geometry[8]), vertice[i])
         vertice[i] = matrixVectorTransform(matrixTranslate(geometry[0], geometry[1], geometry[2]), vertice[i])
         vertice[i] = matrixVectorTransform(cameraMatrix, vertice[i])
     }
@@ -315,14 +301,14 @@ function drawGlass(geometry, texture, light) {
 
     cameraMatrix = matrixIdentity()
     cameraMatrix = matrixMultiply(matrixTranslate(-camera.position[0], -camera.position[1], -camera.position[2]), cameraMatrix)
-    cameraMatrix = matrixMultiply(matrixRotate(2, -camera.rotation[2]), cameraMatrix)
-    cameraMatrix = matrixMultiply(matrixRotate(1, -camera.rotation[1]), cameraMatrix)
     cameraMatrix = matrixMultiply(matrixRotate(0, -camera.rotation[0]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(1, -camera.rotation[1]), cameraMatrix)
+    cameraMatrix = matrixMultiply(matrixRotate(2, -camera.rotation[2]), cameraMatrix)
 
     for (let i = 0; i < 4; i++) {
-        vertice[i] = matrixVectorTransform(matrixRotate(2, geometry[8]), vertice[i])
-        vertice[i] = matrixVectorTransform(matrixRotate(1, geometry[7]), vertice[i])
         vertice[i] = matrixVectorTransform(matrixRotate(0, geometry[6]), vertice[i])
+        vertice[i] = matrixVectorTransform(matrixRotate(1, geometry[7]), vertice[i])
+        vertice[i] = matrixVectorTransform(matrixRotate(2, geometry[8]), vertice[i])
         vertice[i] = matrixVectorTransform(matrixTranslate(geometry[0], geometry[1], geometry[2]), vertice[i])
         vertice[i] = matrixVectorTransform(cameraMatrix, vertice[i])
     }
