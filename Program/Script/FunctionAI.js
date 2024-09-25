@@ -1,44 +1,52 @@
-const IMAGE_SIZE = 150528
+async function TFInit() {
+    tf.setBackend('webgl')
+    console.log('TFJS Ready')
 
-async function TFGetData() {
-    for (let i = 0; i < canvasGenerateBackground.length; i++) {
-        modelImageDataBackground.push(contextGenerateBackground[i].getImageData(0, 0, 224, 224))
-        modelImageDataReflection.push(contextGenerateReflection[i].getImageData(0, 0, 224, 224))
-    }
+    model = tf.sequential()
 
-    for (let i = 0; i < canvasGenerateBackground.length; i++) {
-        modelImageDataReflection[i] = tf.browser.fromPixels(modelImageDataReflection[i])
-        modelImageDataBackground[i] = tf.browser.fromPixels(modelImageDataBackground[i])
-    }
-}
+    const IMAGE_WIDTH = 224
+    const IMAGE_HEIGHT = 224
+    const IMAGE_CHANNELS = 3
 
-async function TFDownSample(filters, size) {
-    let initializer = tf.initializers.randomNormal(0, 0.02)
-
-    result = tf.sequential()
-    result.add(tf.layers.conv2d({
-        inputShape : [224, 224, 3],
-        kernelSize : size,
-        filters : filters,
-        strides : 2,
-        padding : 'same',
-        kernelInitializer : initializer,
-        useBias : false
+    model.add(tf.layers.conv2d({
+        inputShape: [IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS],
+        kernelSize: 5,
+        filters: 8,
+        strides: 1,
+        activation: 'relu',
+        kernelInitializer: 'varianceScaling'
     }))
-}
 
-function TFInit() {
+    model.add(tf.layers.maxPooling2d({poolSize: [2, 2], strides: [2, 2]}))
     
-}
+    model.add(tf.layers.conv2d({
+        kernelSize: 5,
+        filters: 16,
+        strides: 1,
+        activation: 'relu',
+        kernelInitializer: 'varianceScaling'
+    }))
+    model.add(tf.layers.maxPooling2d({poolSize: [2, 2], strides: [2, 2]}))
 
-async function TFTrain() {
-    
-}
+    model.add(tf.layers.flatten())
 
-async function TFTest() {
+    const NUM_OUTPUT_CLASSES = 10
+    model.add(tf.layers.dense({
+        units: NUM_OUTPUT_CLASSES,
+        kernelInitializer: 'varianceScaling',
+        activation: 'softmax'
+    }))
 
+    const optimizer = tf.train.adam()
+    model.compile({
+        optimizer: optimizer,
+        loss: 'categoricalCrossentropy',
+        metrics: ['accuracy'],
+    })
+
+    console.log('Model ready')
 }
 
 async function TFRun() {
-    
+
 }

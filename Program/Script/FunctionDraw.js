@@ -146,12 +146,10 @@ function drawImageFull() {
 
 function drawImageBackground() {
     context.strokeRect(UI.imageBackground[0], UI.imageBackground[1], UI.imageBackground[2], UI.imageBackground[3])
-    context.drawImage(canvasBackground, UI.imageBackground[0], UI.imageBackground[1])
 }
 
 function drawImageReflection() {
     context.strokeRect(UI.imageReflection[0], UI.imageReflection[1], UI.imageReflection[2], UI.imageReflection[3])
-    context.drawImage(canvasReflection, UI.imageReflection[0], UI.imageReflection[1])
 }
 
 function draw3DSpace(space3D, texture, camera, light) {
@@ -186,13 +184,11 @@ function draw3DSpace(space3D, texture, camera, light) {
 }
 
 function drawGlassTexture(space3D, texture, camera, light) {
-    let glass
-
     for (let i = 0; i < space3D.length; i++) {
         if (space3D[i]['Type'] === 'Glass') {
             let glassCamera = {
                 position : [space3D[i]['Geometry'][0], space3D[i]['Geometry'][1], space3D[i]['Geometry'][2]],
-                rotation : [-space3D[i]['Geometry'][6], -space3D[i]['Geometry'][7], -space3D[i]['Geometry'][8]]
+                rotation : [space3D[i]['Geometry'][6], space3D[i]['Geometry'][7], space3D[i]['Geometry'][8]]
             }
             draw3DSpace(space3D, texture, glassCamera, light)
             let tempCanvas = document.createElement('canvas')
@@ -205,11 +201,8 @@ function drawGlassTexture(space3D, texture, camera, light) {
             tempContext.drawImage(canvasG, 0, 0)
             space3DTexture[i] = new Image()
             space3DTexture[i].src = tempCanvas.toDataURL()
-            glass = tempCanvas
         }
     }
-
-    return glass
 }
 
 function draw3DSpaceFull(space3D, texture, camera, light) {

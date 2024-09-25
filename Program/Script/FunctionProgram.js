@@ -34,11 +34,10 @@ function generateImages() {
         tempCanvas.height = 224
         drawGlassTexture(space3DGenerated[i]['Thing'], space3DTexture, space3DGenerated[i]['Camera'], light.direction)
         draw3DSpaceFull(space3DGenerated[i]['Thing'], space3DTexture, space3DGenerated[i]['Camera'], light.direction)
-        tempContext.fillStyle = 'White'
         tempContext.clearRect(0, 0, 224, 224)
         tempContext.drawImage(canvasG, 0, 0, 224, 224)
-        canvasGenerateBackground.push(tempCanvas)
-        contextGenerateBackground.push(tempContext)
+        canvasGenerate.push(tempCanvas)
+        contextGenerate.push(tempContext)
     }
 
     reflectionMode = true
@@ -53,22 +52,8 @@ function generateImages() {
         tempContext.clearRect(0, 0, 224, 224)
         tempContext.fillRect(0, 0, 224, 224)
         tempContext.drawImage(canvasG, 0, 0, 224, 224)
-        canvasGenerateReflection.push(tempCanvas)
-        contextGenerateReflection.push(tempContext)
-    }
-
-    for (let i = 0; i < space3DGenerated.length; i++) {
-        let tempCanvas = document.createElement('canvas')
-        let tempContext = tempCanvas.getContext('2d')
-        tempCanvas.width = 448
-        tempCanvas.height = 224
-        tempCanvas.fillStyle = 'White'
-        tempContext.clearRect(0, 0, 448, 224)
-        tempContext.fillRect(0, 0, 448, 224)
-        tempContext.drawImage(canvasGenerateReflection[i], 0, 0, 224, 224)
-        tempContext.drawImage(canvasGenerateBackground[i], 224, 0, 224, 224)
-        canvasGenerateFull.push(tempCanvas)
-        contextGenerateFull.push(tempContext)
+        canvasGenerate.push(tempCanvas)
+        contextGenerate.push(tempContext)
     }
 }
 

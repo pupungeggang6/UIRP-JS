@@ -48,7 +48,7 @@ function mouseUpMain(x, y, button) {
                 space3D.push({'Name' : 'Cuboid', 'Type' : 'Cuboid', 'Geometry' : [0, 0, 0, 1, 1, 1, 0, 0, 0]})
                 space3DTexture.push(null)
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonGlass)) {
-                space3D.push({'Name' : 'Glass', 'Type' : 'Glass', 'Geometry' : [0, 0, 0, 1, 1, 0, 0, 0, 0]})
+                space3D.push({'Name' : 'Glass', 'Type' : 'Glass', 'Geometry' : [0, 0, 0, 1, 1, 0, 0, 180, 0]})
                 space3DTexture.push(null)
             } else if (pointInsideRectArray(x, y, UI.barTop.buttonCamera)) {
                 state = 'Camera'
@@ -103,13 +103,6 @@ function mouseUpMain(x, y, button) {
 
             if (pointInsideRectArray(x, y, UI.barTop.buttonUploadRefNo)) {
                 imageModelRefNoDOM.click()
-            }
-
-            if (pointInsideRectArray(x, y, UI.barTop.buttonTrain)) {
-                if (canvasGenerateBackground.length > 0) {
-                    TFGetData()
-                    TFRun()
-                }
             }
         } else if (state === 'SelectedSpace3D') {
             if (pointInsideRectArray(x, y, UI.barRight.buttonDone)) {
