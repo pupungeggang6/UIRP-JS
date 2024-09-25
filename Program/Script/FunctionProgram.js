@@ -34,6 +34,7 @@ function generateImages() {
         tempCanvas.height = 224
         drawGlassTexture(space3DGenerated[i]['Thing'], space3DTexture, space3DGenerated[i]['Camera'], light.direction)
         draw3DSpaceFull(space3DGenerated[i]['Thing'], space3DTexture, space3DGenerated[i]['Camera'], light.direction)
+        tempContext.fillStyle = 'White'
         tempContext.clearRect(0, 0, 224, 224)
         tempContext.drawImage(canvasG, 0, 0, 224, 224)
         canvasGenerateBackground.push(tempCanvas)
