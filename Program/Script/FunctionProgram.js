@@ -58,15 +58,15 @@ async function generateImages() {
     for (let i = 0; i < space3DGenerated.length; i++) {
         let tempCanvas = document.createElement('canvas')
         let tempContext = tempCanvas.getContext('2d')
-        tempCanvas.width = 224
-        tempCanvas.height = 224
+        tempCanvas.width = 256
+        tempCanvas.height = 256
         tempContext.fillStyle = 'White'
         camera = findGlass(i)
         drawGlassTexture(space3DGenerated[i]['Thing'], space3DTexture, camera, light.direction)
         draw3DSpaceFull(space3DGenerated[i]['Thing'], space3DTexture, camera, light.direction)
-        tempContext.clearRect(0, 0, 224, 224)
-        tempContext.fillRect(0, 0, 224, 224)
-        tempContext.drawImage(canvasG, 0, 0, 224, 224)
+        tempContext.clearRect(0, 0, 256, 256)
+        tempContext.fillRect(0, 0, 256, 256)
+        tempContext.drawImage(canvasG, 0, 0, 256, 256)
         canvasGenerateBg.push(tempCanvas)
         contextGenerateBg.push(tempContext)
     }
@@ -75,15 +75,15 @@ async function generateImages() {
     for (let i = 0; i < space3DGenerated.length; i++) {
         let tempCanvas = document.createElement('canvas')
         let tempContext = tempCanvas.getContext('2d')
-        tempCanvas.width = 224
-        tempCanvas.height = 224
+        tempCanvas.width = 256
+        tempCanvas.height = 256
         tempContext.fillStyle = 'White'
         camera = findGlass(i)
         await drawGlassTexture(space3DGenerated[i]['Thing'], space3DTexture, camera, light.direction)
         await draw3DSpaceFull(space3DGenerated[i]['Thing'], space3DTexture, camera, light.direction)
-        tempContext.clearRect(0, 0, 224, 224)
-        tempContext.fillRect(0, 0, 224, 224)
-        tempContext.drawImage(canvasG, 0, 0, 224, 224)
+        tempContext.clearRect(0, 0, 256, 256)
+        tempContext.fillRect(0, 0, 256, 256)
+        tempContext.drawImage(canvasG, 0, 0, 256, 256)
         canvasGenerateRef.push(tempCanvas)
         contextGenerateRef.push(tempContext)
     }
@@ -91,11 +91,11 @@ async function generateImages() {
     for (let i = 0; i < space3DGenerated.length; i++) {
         let tempCanvas = document.createElement('canvas')
         let tempContext = tempCanvas.getContext('2d')
-        tempCanvas.width = 448
-        tempCanvas.height = 224
-        tempContext.clearRect(0, 0, 224, 224)
-        tempContext.drawImage(canvasGenerateRef[i], 0, 0, 224, 224)
-        tempContext.drawImage(canvasGenerateBg[i], 224, 0, 224, 224)
+        tempCanvas.width = 512
+        tempCanvas.height = 256
+        tempContext.clearRect(0, 0, 256, 256)
+        tempContext.drawImage(canvasGenerateRef[i], 256, 0, 256, 256)
+        tempContext.drawImage(canvasGenerateBg[i], 0, 0, 256, 256)
         canvasGenerateFull.push(tempCanvas)
         contextGenerateFull.push(tempContext)
     }

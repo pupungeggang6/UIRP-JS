@@ -16,7 +16,7 @@ function saveFile() {
 
 function downloadImage() {
     var link = document.createElement('a')
-    link.download = 'test.png'
+    link.download = 'test.jpg'
     link.href = canvasImageFull.toDataURL()
     document.body.appendChild(link)
     link.click()
@@ -26,9 +26,9 @@ function downloadImage() {
 function downloadImageGenerated() {
     for (let i = 0; i < canvasGenerateFull.length; i++) {
         var link = document.createElement('a')
-        link.download = `ImageFull${i}.png`
+        link.download = `ImageFull${downloadedNum}.jpg`
         downloadedNum += 1
-        link.href = canvasGenerateFull[i].toDataURL()
+        link.href = canvasGenerateFull[i].toDataURL("image/jpeg", 1.0)
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
